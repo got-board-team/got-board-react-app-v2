@@ -1,12 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
+.app {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -17,6 +9,16 @@
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.map {
+  background-color: #666666;
+  width: 90vw;
+  height: 90vh;
+}
+
+.piece {
+  width: 32px;
+  height: 32px;
+  background-color: #333333;
+  margin: 1px;
+  text-align: center;
 }
