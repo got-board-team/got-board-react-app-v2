@@ -1,31 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrop } from 'react-dnd'
 
 import Piece from './Piece';
 
-export interface DragItem {
+export interface PieceProps {
+  id: number
   type: string
-  id: string
-  top: number
-  left: number
+  x: number
+  y: number
 }
 
 const Map = React.memo(() => {
+  const [pieces, setPieces] = useState([
+    { id: 1, type: "piece", x: 10, y: 10 },
+    { id: 2, type: "piece", x: 10, y: 10 },
+    { id: 3, type: "piece", x: 10, y: 10 },
+  ]);
+
   const [collectedProps, drop] = useDrop({
     accept: "piece",
     canDrop: () => true,
-    drop: (item: DragItem, monitor) => console.log('drop!', monitor.getDifferenceFromInitialOffset()),
+    drop: (item: PieceProps, monitor) => {
+      const newCoords = monitor.getDifferenceFromInitialOffset();
+      if (newCoords && newCoords.x && newCoords.y) {
+        const currentPiece = pieces.find(i => i.id === item.id);
+        if (!currentPiece) return; // Not undefined
+        const otherPieces = pieces.filter(i => i.id === item.id);
+        const newPiece: PieceProps = {
+          ...currentPiece,
+          x: newCoords.x,
+          y: newCoords.y,
+        };
+        const final: PieceProps[] = [
+          ...otherPieces,
+          newPiece,
+        ]
+        setPieces(final);
+      }
+    },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),
     }),
   });
 
+  console.log(pieces)
+
   return (
     <section className="map" ref={drop}>
-      <Piece />
-      <Piece />
-      <Piece />
+      {pieces.map(piece => <Piece id={piece.id} x={piece.x} y={piece.y} type="piece" />)}
     </section>
   );
 });
