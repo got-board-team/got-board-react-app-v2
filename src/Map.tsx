@@ -1,20 +1,32 @@
 import React from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import { useDrop } from 'react-dnd'
+
+import Piece from './Piece';
+
+export interface DragItem {
+  type: string
+  id: string
+  top: number
+  left: number
+}
 
 const Map = React.memo(() => {
-  const [{ opacity }, dragRef] = useDrag({
-    item: { type: "piece", text: "text" },
+  const [collectedProps, drop] = useDrop({
+    accept: "piece",
+    canDrop: () => true,
+    drop: (item: DragItem, monitor) => console.log('drop!', monitor.getDifferenceFromInitialOffset()),
     collect: monitor => ({
-      opacity: monitor.isDragging() ? 0.5 : 1,
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
     }),
   });
 
   return (
-    <div className="app">
-      <section className="map">
-        <div className="piece" ref={dragRef} style={{ opacity }}>♘</div>
-      </section>
-    </div>
+    <section className="map" ref={drop}>
+      <Piece />
+      <Piece />
+      <Piece />
+    </section>
   );
 });
 

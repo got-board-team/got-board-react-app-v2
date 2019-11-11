@@ -8,7 +8,9 @@ import Map from "./Map";
 const App: React.FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <Map />
+      <div className="app">
+        <Map />
+      </div>
     </DndProvider>
   );
 }
