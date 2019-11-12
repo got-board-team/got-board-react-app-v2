@@ -21,7 +21,6 @@ const Map = React.memo(() => {
     accept: "piece",
     canDrop: () => true,
     drop: (item: PieceProps, monitor) => {
-      console.log(monitor.getDifferenceFromInitialOffset())
       const newCoords = monitor.getDifferenceFromInitialOffset();
       if (newCoords && newCoords.x && newCoords.y) {
         const currentPiece = pieces.find(i => i.id === item.id);
@@ -47,7 +46,7 @@ const Map = React.memo(() => {
 
   return (
     <section className="map" ref={drop}>
-      {pieces.map((piece, index) => <Piece key={index} id={piece.id} x={piece.x} y={piece.y} type="piece" />)}
+    {pieces.map((piece, index) => <Piece key={index} id={piece.id} x={piece.x} y={piece.y} type="piece" />)}
     </section>
   );
 });
