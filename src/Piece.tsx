@@ -3,14 +3,12 @@ import { useDrag } from 'react-dnd';
 import { PieceProps } from './Map';
 
 const Piece = React.memo(({id, x, y}: PieceProps) => {
-  const [{ opacity, left, top, isDragging, initial, end }, dragRef] = useDrag({
+  const [{ opacity, left, top }, dragRef] = useDrag({
     item: { id, type: "piece", x, y },
     collect: monitor => ({
       left: monitor.getDropResult() ? monitor.getDropResult()['x'] : x,
       top: monitor.getDropResult() ? monitor.getDropResult()['y'] : y,
-      initial: monitor.getInitialClientOffset(),
-      end: monitor.getDifferenceFromInitialOffset(),
-      opacity: 1,
+      opacity: monitor.isDragging() ? 0.1 : 1,
       isDragging: !!monitor.isDragging(),
     }),
   });
