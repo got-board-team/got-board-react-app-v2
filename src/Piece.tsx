@@ -16,7 +16,7 @@ const Piece = React.memo(({id, x, y}: PieceProps) => {
   });
 
   return (
-    <div className="piece" ref={dragRef} style={{ position: 'absolute', left, top, opacity }}>♘</div>
+    <div className="piece" ref={dragRef} style={{ left, top, opacity }}>♘</div>
   );
 });
 
