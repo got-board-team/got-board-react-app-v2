@@ -13,12 +13,15 @@
   background-color: #666666;
   width: 90vw;
   height: 90vh;
-  position: relative;
 }
 
 .draggable {
   position: absolute;
   z-index: 1;
+}
+
+.dropable {
+  position: relative;
 }
 
 .piece {
