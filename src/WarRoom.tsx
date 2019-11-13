@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { ReactNode } from 'react';
 
 import Draggable from './Draggable';
 
-const WarRoom = React.memo(({children}) => {
-  return (
-    <section className="war-room">{children}</section>
-  );
-});
+interface WarRoomProps {
+  id: number;
+  type: string;
+  x: number;
+  y: number;
+  children: ReactNode;
+}
 
-export default Draggable(WarRoom);
+const WarRoom = React.memo(({id, type, x, y, children}: WarRoomProps) => (
+  <Draggable id={id} type={type} x={x} y={y}>
+    <section className="war-room">{children}</section>
+  </Draggable>
+));
+
+export default WarRoom;

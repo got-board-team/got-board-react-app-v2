@@ -16,8 +16,12 @@
   position: relative;
 }
 
-.piece {
+.draggable {
   position: absolute;
+  z-index: 1;
+}
+
+.piece {
   width: 32px;
   height: 32px;
   background-color: #333333;
@@ -26,12 +30,8 @@
 }
 
 .war-room {
-  position: absolute;
   background-color: rgba(0,0,0,.5);
   padding: 10px;
-  top: 10px;
-  left: 10px;
-  z-index: 1;
   width: 20vw;
   height: 20vh;
 }

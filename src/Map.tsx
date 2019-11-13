@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd'
 
-import Piece from './Piece';
-
-export interface PieceProps {
-  id: number
-  type: string
-  x: number
-  y: number
-}
+import Piece, { PieceProps } from './Piece';
 
 const Map = React.memo(() => {
   const [pieces, setPieces] = useState([
@@ -46,7 +39,7 @@ const Map = React.memo(() => {
 
   return (
     <section className="map" ref={drop}>
-    {pieces.map((piece, index) => <Piece key={index} id={piece.id} x={piece.x} y={piece.y} type="piece" />)}
+      {pieces.map((piece, index) => <Piece key={index} id={piece.id} x={piece.x} y={piece.y} type="piece" />)}
     </section>
   );
 });

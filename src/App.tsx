@@ -19,7 +19,7 @@ const App: React.FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="app">
-        <WarRoom>
+        <WarRoom id={0} type="war-room" x={50} y={50}>
           {warRoomPieces.map((piece, index) => <Piece key={index} id={piece.id} x={piece.x} y={piece.y} type="piece" />)}
         </WarRoom>
         <Map />
