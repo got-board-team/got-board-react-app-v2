@@ -21,7 +21,7 @@ export default (
 ) => {
   switch (type) {
     case types.REMOVE_PIECE_FROM_MAP_SUCCESS:
-      const updatedPieces = state.pieces.filter(p => p.id === pieceId);
+      const updatedPieces = state.pieces.filter(p => p.id !== pieceId);
 
       return {
         ...state,

@@ -27,7 +27,7 @@ const WarRoom = React.memo(({x, y, pieces, addPieceInWarRoom, updatePieceInWarRo
         const otherPieces = pieces.filter(i => i.id !== item.id);
         const ids = otherPieces.map(piece => piece.id);
         const newPiece = {
-          id: Math.max(...ids) + 1,
+          id: item.id,
           type: "piece",
           x: newCoords.x,
           y: newCoords.y,
