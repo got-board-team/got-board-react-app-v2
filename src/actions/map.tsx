@@ -1,20 +1,10 @@
 import * as types from "./actionTypes";
 
-const updateAction = () => ({
-  type: types.UPDATE_MAP,
+const removePieceFromMapSuccessAction = (pieceId: number) => ({
+  type: types.REMOVE_PIECE_FROM_MAP_SUCCESS,
+  pieceId: pieceId,
 });
 
-const updateSuccessAction = (pieces: Array<any>) => ({
-  type: types.UPDATE_MAP_SUCCESS,
-  pieces: pieces,
-});
-
-const updateErrorAction = (errorMessage: string) => ({
-  type: types.UPDATE_MAP_ERROR,
-  errorMessage,
-});
-
-export const updateMap = (pieces: Array<any>) => (dispatch: any) => {
-  dispatch(updateAction());
-  dispatch(updateSuccessAction(pieces));
+export const removePieceFromMap = (pieceId: number) => (dispatch: any) => {
+  dispatch(removePieceFromMapSuccessAction(pieceId));
 };

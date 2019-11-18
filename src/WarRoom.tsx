@@ -4,32 +4,46 @@ import { connect } from 'react-redux'
 import Piece, { PieceProps } from './Piece';
 import Draggable from './Draggable';
 import Dropable from "./Dropable";
-import { updateWarRoom } from "./actions/warRoom";
+import { addPieceInWarRoom, updatePieceInWarRoom } from "./actions/warRoom";
+import { removePieceFromMap } from "./actions/map";
 
 interface WarRoomProps {
   pieces: Array<any>;
-  updateWarRoom: (pieces: Array<any>) => void;
+  updatePieceInWarRoom: (piece: any) => void;
+  addPieceInWarRoom: (piece: any) => void;
+  removePieceFromMap: (piece: any) => void;
   x: number;
   y: number;
 }
 
-const WarRoom = React.memo(({x, y, pieces, updateWarRoom}: WarRoomProps) => {
+const WarRoom = React.memo(({x, y, pieces, addPieceInWarRoom, updatePieceInWarRoom, removePieceFromMap}: WarRoomProps) => {
   const updatePiecePosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
+
     if (newCoords && newCoords.x && newCoords.y) {
       const currentPiece = pieces.find(i => i.id === item.id);
-      if (!currentPiece) return; // Not undefined
-      const otherPieces = pieces.filter(i => i.id !== item.id);
-       const newPiece: PieceProps = {
+
+      if (!currentPiece) {
+        const otherPieces = pieces.filter(i => i.id !== item.id);
+        const ids = otherPieces.map(piece => piece.id);
+        const newPiece = {
+          id: Math.max(...ids) + 1,
+          type: "piece",
+          x: newCoords.x,
+          y: newCoords.y,
+        };
+        addPieceInWarRoom(newPiece);
+        removePieceFromMap(item.id);
+        return;
+      }
+
+      const updatedPiece: PieceProps = {
         ...currentPiece,
         x: newCoords.x + currentPiece.x,
         y: newCoords.y + currentPiece.y,
       };
-       const final: PieceProps[] = [
-        ...otherPieces,
-        newPiece,
-      ]
-      updateWarRoom(final);
+
+      updatePieceInWarRoom(updatedPiece);
     }
   }
 
@@ -49,7 +63,9 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  updateWarRoom,
+  addPieceInWarRoom,
+  updatePieceInWarRoom,
+  removePieceFromMap,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarRoom);

@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 
 import Dropable from "./Dropable";
 import Piece, { PieceProps } from './Piece';
-import { updateMap } from "./actions/map";
 
 interface MapProps {
   pieces: Array<any>;
-  updateMap: (pieces: Array<any>) => void;
 }
 
-const Map = React.memo(({pieces, updateMap}: MapProps) => {
+const Map = React.memo(({pieces}: MapProps) => {
   const updatePiecePosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
     if (newCoords && newCoords.x && newCoords.y) {
@@ -38,7 +36,7 @@ const Map = React.memo(({pieces, updateMap}: MapProps) => {
         newPiece,
       ]
 
-      updateMap(final);
+      //updateMap(final);
     }
   }
 
@@ -56,7 +54,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  updateMap,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

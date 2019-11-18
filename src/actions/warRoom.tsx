@@ -1,20 +1,19 @@
 import * as types from "./actionTypes";
 
-const updateAction = () => ({
-  type: types.UPDATE_WAR_ROOM,
+const addPieceSuccessAction = (piece: any) => ({
+  type: types.ADD_PIECE_IN_WAR_ROOM_SUCCESS,
+  piece: piece,
 });
 
-const updateSuccessAction = (pieces: Array<any>) => ({
-  type: types.UPDATE_WAR_ROOM_SUCCESS,
-  pieces: pieces,
+export const addPieceInWarRoom = (piece: any) => (dispatch: any) => {
+  dispatch(addPieceSuccessAction(piece));
+};
+
+const updatePieceSuccessAction = (piece: any) => ({
+  type: types.UPDATE_PIECE_IN_WAR_ROOM_SUCCESS,
+  piece: piece,
 });
 
-const updateErrorAction = (errorMessage: string) => ({
-  type: types.UPDATE_WAR_ROOM_ERROR,
-  errorMessage,
-});
-
-export const updateWarRoom = (pieces: Array<any>) => (dispatch: any) => {
-  dispatch(updateAction());
-  dispatch(updateSuccessAction(pieces));
+export const updatePieceInWarRoom = (piece: any) => (dispatch: any) => {
+  dispatch(updatePieceSuccessAction(piece));
 };

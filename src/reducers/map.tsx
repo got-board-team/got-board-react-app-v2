@@ -17,25 +17,15 @@ const initialState: MapState = {
 
 export default (
   state = initialState,
-  { type, errorMessage, pieces }: {type: string, errorMessage: string, pieces: Array<any>}
+  { type, errorMessage, pieceId }: {type: string, errorMessage: string, pieceId: number}
 ) => {
   switch (type) {
-    case types.UPDATE_MAP:
+    case types.REMOVE_PIECE_FROM_MAP_SUCCESS:
+      const updatedPieces = state.pieces.filter(p => p.id === pieceId);
+
       return {
         ...state,
-        isLoading: true,
-      };
-    case types.UPDATE_MAP_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        pieces: pieces,
-      };
-    case types.UPDATE_MAP_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        errorMessage,
+        pieces: updatedPieces,
       };
     default:
       return state;

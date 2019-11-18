@@ -20,25 +20,39 @@ const initialState: WarRoomState = {
 
 export default (
   state = initialState,
-  { type, errorMessage, pieces }: {type: string, errorMessage: string, pieces: Array<any>}
+  { type, errorMessage, piece, pieces }: {type: string, errorMessage: string, pieces: Array<any>, piece: any}
 ) => {
   switch (type) {
-    case types.UPDATE_WAR_ROOM:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case types.UPDATE_WAR_ROOM_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        pieces: pieces,
-      };
-    case types.UPDATE_WAR_ROOM_ERROR:
+    case types.ADD_PIECE_IN_WAR_ROOM_SUCCESS:
+      const piecesWithNewPiece = [
+        ...state.pieces,
+        {
+          ...piece,
+          type: "piece",
+        }
+      ];
       return {
         ...state,
         isLoading: false,
-        errorMessage,
+        pieces: piecesWithNewPiece,
+      };
+    case types.UPDATE_PIECE_IN_WAR_ROOM_SUCCESS:
+      const currentPiece = state.pieces.find(p => p.id === piece.id);
+      const otherPieces = state.pieces.filter(p => p.id !== piece.id);
+
+      const updatedPieces = [
+        ...otherPieces,
+        {
+          ...currentPiece,
+          x: piece.x,
+          y: piece.y,
+        },
+      ];
+
+      return {
+        ...state,
+        isLoading: false,
+        pieces: updatedPieces,
       };
     default:
       return state;
