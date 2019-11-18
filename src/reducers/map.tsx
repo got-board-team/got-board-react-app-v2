@@ -1,19 +1,16 @@
 import * as types from "../actions/actionTypes";
 
-export interface WarRoomState {
+export interface MapState {
   isLoading: boolean;
   pieces: Array<any>;
   errorMessage: string;
 }
 
-const initialState: WarRoomState = {
+const initialState: MapState = {
   isLoading: false,
   pieces: [
-    { id: 1, type: "piece", x: 100, y: 100 },
-    { id: 2, type: "piece", x: 150, y: 100 },
-    { id: 3, type: "piece", x: 200, y: 100 },
-    { id: 4, type: "piece", x: 250, y: 100 },
-    { id: 5, type: "piece", x: 300, y: 100 },
+    { id: 6, type: "piece", x: 100, y: 100 },
+    { id: 7, type: "piece", x: 150, y: 100 },
   ],
   errorMessage: "",
 };
@@ -23,18 +20,18 @@ export default (
   { type, errorMessage, pieces }: {type: string, errorMessage: string, pieces: Array<any>}
 ) => {
   switch (type) {
-    case types.UPDATE_WAR_ROOM:
+    case types.UPDATE_MAP:
       return {
         ...state,
         isLoading: true,
       };
-    case types.UPDATE_WAR_ROOM_SUCCESS:
+    case types.UPDATE_MAP_SUCCESS:
       return {
         ...state,
         isLoading: false,
         pieces: pieces,
       };
-    case types.UPDATE_WAR_ROOM_ERROR:
+    case types.UPDATE_MAP_ERROR:
       return {
         ...state,
         isLoading: false,

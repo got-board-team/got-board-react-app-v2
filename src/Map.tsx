@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux'
 
 import Dropable from "./Dropable";
 import Piece, { PieceProps } from './Piece';
+import { updateMap } from "./actions/map";
 
-const Map = React.memo(() => {
-  const [pieces, setPieces] = useState([
-    { id: 6, type: "piece", x: 100, y: 100 },
-    { id: 7, type: "piece", x: 150, y: 100 },
-    { id: 8, type: "piece", x: 200, y: 100 },
-  ]);
+interface MapProps {
+  pieces: Array<any>;
+  updateMap: (pieces: Array<any>) => void;
+}
 
+const Map = React.memo(({pieces, updateMap}: MapProps) => {
   const updatePiecePosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
     if (newCoords && newCoords.x && newCoords.y) {
@@ -37,7 +38,7 @@ const Map = React.memo(() => {
         newPiece,
       ]
 
-      setPieces(final);
+      updateMap(final);
     }
   }
 
@@ -50,4 +51,12 @@ const Map = React.memo(() => {
   );
 });
 
-export default Map;
+const mapStateToProps = (state: any) => ({
+  pieces: state.map.pieces,
+});
+
+const mapDispatchToProps = {
+  updateMap,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux'
 
 import WarRoom from './WarRoom';
 import Map from "./Map";
 import Dropable from "./Dropable";
-import { updateWarRoom } from "./actions/warRoom";
 
 const Game = React.memo(() => {
-  const [warRoomPosition, setWarRoomPosition] = useState({x: 50, y: 50});
+  const [warRoomPosition, setWarRoomPosition] = useState({x: 600, y: 80});
 
   const updateWarRoomPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -26,12 +24,4 @@ const Game = React.memo(() => {
   );
 });
 
-const mapStateToProps = (state: any) => ({
-  ...state.warRoom,
-});
-
-const mapDispatchToProps = {
-  updateWarRoom,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default Game;

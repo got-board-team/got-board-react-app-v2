@@ -1,20 +1,20 @@
 import * as types from "./actionTypes";
 
 const updateAction = () => ({
-  type: types.UPDATE_WAR_ROOM,
+  type: types.UPDATE_MAP,
 });
 
 const updateSuccessAction = (pieces: Array<any>) => ({
-  type: types.UPDATE_WAR_ROOM_SUCCESS,
+  type: types.UPDATE_MAP_SUCCESS,
   pieces: pieces,
 });
 
 const updateErrorAction = (errorMessage: string) => ({
-  type: types.UPDATE_WAR_ROOM_ERROR,
+  type: types.UPDATE_MAP_ERROR,
   errorMessage,
 });
 
-export const updateWarRoom = (pieces: Array<any>) => (dispatch: any) => {
+export const updateMap = (pieces: Array<any>) => (dispatch: any) => {
   dispatch(updateAction());
   dispatch(updateSuccessAction(pieces));
 };
