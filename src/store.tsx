@@ -1,4 +1,4 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux'
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import ReduxThunk from "redux-thunk";
 
 import * as Reducers from './reducers'
@@ -21,4 +21,21 @@ const rootReducer = (state: any, action: any) => {
 const middleware = [ReduxThunk];
 let enhancer = applyMiddleware(...middleware);
 
-export default createStore(rootReducer, enhancer);;
+// Start setup for the ReduxDev Tools ----------------------
+declare global {
+  interface Window { __REDUX_DEVTOOLS_EXTENSION__: any; }
+}
+const devTools =
+  (window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__()) ||
+  null;
+
+if (devTools) {
+  enhancer = compose(
+    applyMiddleware(...middleware),
+    devTools
+  );
+}
+// End setup for the ReduxDev Tools ------------------------
+
+export default createStore(rootReducer, enhancer);
