@@ -1,6 +1,12 @@
 import * as types from "../actions/actionTypes";
 
-const initialState = {
+interface WarRoomState {
+  isLoading: boolean;
+  pieces: Array<any>;
+  errorMessage: string;
+}
+
+const initialState: WarRoomState = {
   isLoading: false,
   pieces: [],
   errorMessage: "",
@@ -8,7 +14,7 @@ const initialState = {
 
 export default (
   state = initialState,
-  { type, errorMessage, pieces }: {string, string, Array}
+  { type, errorMessage, pieces }: {type: string, errorMessage: string, pieces: Array<any>}
 ) => {
   switch (type) {
     case types.UPDATE_WAR_ROOM:
@@ -26,7 +32,7 @@ export default (
       return {
         ...state,
         isLoading: false,
-        errorMessage: "Could not update war room",
+        errorMessage,
       };
     default:
       return state;
