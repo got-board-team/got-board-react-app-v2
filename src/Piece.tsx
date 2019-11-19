@@ -1,16 +1,10 @@
 import React from 'react';
 
 import Draggable from './Draggable';
+import { Drop } from "./reducers/drop";
 
-export interface PieceProps {
-  id: number;
-  type: string;
-  x: number;
-  y: number;
-}
-
-const Piece = React.memo(({id, type, x, y}: PieceProps) => (
-  <Draggable id={id} type={type} x={x} y={y}>
+const Piece = React.memo(({id, type, x, y, location}: Drop) => (
+  <Draggable id={id} type={type} x={x} y={y} location={location}>
     <div className={type}>♘</div>
   </Draggable>
 ));

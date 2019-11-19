@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import { useDrag } from 'react-dnd'
 
-import { PieceProps } from "./Piece";
+import { Drop } from "./reducers/drop";
 
-interface Props extends PieceProps {
+interface Props extends Drop {
   children: ReactNode;
 }
 
-const Draggable = ({id, x, y, type, children}: Props) => {
+const Draggable = ({id, x, y, type, children, location}: Props) => {
   const [{ opacity, left, top }, dragRef] = useDrag({
-    item: { id, type: type, x, y },
+    item: { id, type, x, y, location },
     collect: monitor => ({
       left: monitor.getDropResult() ? monitor.getDropResult()['x'] : x,
       top: monitor.getDropResult() ? monitor.getDropResult()['y'] : y,

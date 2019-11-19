@@ -17,7 +17,7 @@ const Game = React.memo(() => {
   }
 
   return (
-    <Dropable accept="war-room" dropAction={updateWarRoomPosition}>
+    <Dropable accept="war-room" dropAction={updateWarRoomPosition} dropLocation="game">
       <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
       <Map />
     </Dropable>

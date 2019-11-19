@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import Piece, { PieceProps } from './Piece';
+import Piece from './Piece';
 import Draggable from './Draggable';
 import Dropable from "./Dropable";
 import { addPieceInWarRoom, updatePieceInWarRoom } from "./actions/warRoom";
@@ -18,41 +18,11 @@ interface WarRoomProps {
 }
 
 const WarRoom = React.memo(({x, y, drops, addPieceInWarRoom, updatePieceInWarRoom, removePieceFromMap}: WarRoomProps) => {
-  const updatePiecePosition = (item: any, monitor: any) => {
-    /* const newCoords = monitor.getDifferenceFromInitialOffset();
-
-     * if (newCoords && newCoords.x && newCoords.y) {
-     *   const currentPiece = pieces.find(i => i.id === item.id);
-
-     *   if (!currentPiece) {
-     *     const otherPieces = pieces.filter(i => i.id !== item.id);
-     *     const ids = otherPieces.map(piece => piece.id);
-     *     const newPiece = {
-     *       id: item.id,
-     *       type: "piece",
-     *       x: newCoords.x,
-     *       y: newCoords.y,
-     *     };
-     *     addPieceInWarRoom(newPiece);
-     *     removePieceFromMap(item.id);
-     *     return;
-     *   }
-
-     *   const updatedPiece: PieceProps = {
-     *     ...currentPiece,
-     *     x: newCoords.x + currentPiece.x,
-     *     y: newCoords.y + currentPiece.y,
-     *   };
-
-     *   updatePieceInWarRoom(updatedPiece);
-     * } */
-  }
-
   return (
-    <Dropable accept="piece" dropAction={updatePiecePosition}>
-      <Draggable id={0} type="war-room" x={x} y={y}>
+    <Dropable accept="piece" dropLocation="war-room">
+      <Draggable id={0} type="war-room" x={x} y={y} location="game">
         <section className="war-room">
-          {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} />)}
+          {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} />)}
         </section>
       </Draggable>
     </Dropable>

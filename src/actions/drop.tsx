@@ -6,6 +6,6 @@ const updateDropableSuccessAction = (drop: Drop) => ({
   drop,
 });
 
-export const updateDropLocation = (drop: Drop) => (dispatch: any) => {
+export const updateDrop = (drop: Drop) => (dispatch: any) => {
   dispatch(updateDropableSuccessAction(drop));
 };
