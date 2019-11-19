@@ -16,13 +16,10 @@ interface DropState {
 const initialState: DropState = {
   isLoading: false,
   drops: [
-    { id: 1, type: "piece", x: 100, y: 100, location: "war-room" },
-    { id: 2, type: "piece", x: 150, y: 100, location: "war-room" },
-    { id: 3, type: "piece", x: 200, y: 100, location: "war-room" },
-    { id: 4, type: "piece", x: 250, y: 100, location: "war-room" },
-    { id: 5, type: "piece", x: 300, y: 100, location: "war-room" },
-    { id: 6, type: "piece", x: 100, y: 100, location: "map" },
-    { id: 7, type: "piece", x: 150, y: 100, location: "map" },
+    { id: 1, type: "piece", x: 10, y: 10, location: "war-room" },
+    { id: 2, type: "piece", x: 43, y: 10, location: "war-room" },
+    { id: 3, type: "piece", x: 10, y: 10, location: "map" },
+    { id: 4, type: "piece", x: 43, y: 10, location: "map" },
   ],
 };
 
