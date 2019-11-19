@@ -8,10 +8,7 @@ export interface MapState {
 
 const initialState: MapState = {
   isLoading: false,
-  pieces: [
-    { id: 6, type: "piece", x: 100, y: 100 },
-    { id: 7, type: "piece", x: 150, y: 100 },
-  ],
+  pieces: [],
   errorMessage: "",
 };
 

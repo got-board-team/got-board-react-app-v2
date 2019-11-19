@@ -8,13 +8,7 @@ export interface WarRoomState {
 
 const initialState: WarRoomState = {
   isLoading: false,
-  pieces: [
-    { id: 1, type: "piece", x: 100, y: 100 },
-    { id: 2, type: "piece", x: 150, y: 100 },
-    { id: 3, type: "piece", x: 200, y: 100 },
-    { id: 4, type: "piece", x: 250, y: 100 },
-    { id: 5, type: "piece", x: 300, y: 100 },
-  ],
+  pieces: [],
   errorMessage: "",
 };
 
