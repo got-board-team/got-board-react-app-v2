@@ -9,15 +9,13 @@ interface MapProps {
   drops: Drop[];
 }
 
-const Map = React.memo(({drops}: MapProps) => {
-  return (
-    <Dropable accept="piece" dropLocation="map">
-      <section className="map">
-        {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} />)}
-      </section>
-    </Dropable>
-  );
-});
+const Map = React.memo(({drops}: MapProps) => (
+  <Dropable accept="piece" dropLocation="map">
+    <section className="map">
+      {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} />)}
+    </section>
+  </Dropable>
+));
 
 const mapStateToProps = (state: any) => ({
   drops: state.drop.drops.filter((drop: Drop) => drop.location === "map"),

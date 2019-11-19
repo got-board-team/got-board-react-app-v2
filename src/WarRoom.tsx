@@ -10,24 +10,19 @@ import { Drop } from "./reducers/drop";
 
 interface WarRoomProps {
   drops: Array<Drop>;
-  updatePieceInWarRoom: (piece: any) => void;
-  addPieceInWarRoom: (piece: any) => void;
-  removePieceFromMap: (piece: any) => void;
   x: number;
   y: number;
 }
 
-const WarRoom = React.memo(({x, y, drops, addPieceInWarRoom, updatePieceInWarRoom, removePieceFromMap}: WarRoomProps) => {
-  return (
-    <Dropable accept="piece" dropLocation="war-room">
-      <Draggable id={0} type="war-room" x={x} y={y} location="game">
-        <section className="war-room">
-          {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} />)}
-        </section>
-      </Draggable>
-    </Dropable>
-  );
-});
+const WarRoom = React.memo(({x, y, drops}: WarRoomProps) => (
+  <Dropable accept="piece" dropLocation="war-room">
+    <Draggable id={0} type="war-room" x={x} y={y} location="game">
+      <section className="war-room">
+        {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} />)}
+      </section>
+    </Draggable>
+  </Dropable>
+));
 
 const mapStateToProps = (state: any) => ({
   drops: state.drop.drops.filter((drop: Drop) => drop.location === "war-room"),
