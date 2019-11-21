@@ -29,7 +29,6 @@ export default (
 ) => {
   switch (type) {
     case types.UPDATE_DROP_LOCATION_SUCCESS:
-      const currentDrop: Drop | undefined = state.drops.find((p: Drop) => p.id === drop.id);
       const otherDrops: Drop[] = state.drops.filter((p: Drop) => p.id !== drop.id);
 
       const updatedDrops: Drop[] = [
