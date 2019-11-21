@@ -13,7 +13,6 @@ const PUSHER_CLUSTER = process.env.REACT_APP_PUSHER_CLUSTER || "";
 
 const App: React.FC = () => {
   useEffect(() => {
-    console.log('Loaded pusher', PUSHER_KEY)
     const pusher = new Pusher(PUSHER_KEY, {
       cluster: PUSHER_CLUSTER,
       encrypted: true
