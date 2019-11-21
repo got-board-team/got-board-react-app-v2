@@ -20,10 +20,6 @@
   z-index: 1;
 }
 
-.dropable {
-  position: relative;
-}
-
 .piece {
   width: 32px;
   height: 32px;
@@ -37,4 +33,9 @@
   padding: 10px;
   width: 40vw;
   height: 60vh;
+  display: flex;
+}
+
+.war-room .draggable {
+  position: static;
 }

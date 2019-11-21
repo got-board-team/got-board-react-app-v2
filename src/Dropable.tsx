@@ -16,15 +16,18 @@ interface Props {
 const Dropable = ({accept, dropAction, children, updateDrop, dropLocation}: Props) => {
   const defaultDropAction = (drop: Drop, monitor: any) => {
     const coords = monitor.getDifferenceFromInitialOffset();
-    if (coords && coords.x && coords.y) {
-      const updatedDrop = {
-        ...drop,
-        x: drop.x + coords.x,
-        y: drop.y + coords.y,
-        location: dropLocation,
-      };
-      updateDrop(updatedDrop);
-    }
+    const otherCoords = monitor.getSourceClientOffset();
+    const hasChangedLocation = drop.location !== dropLocation;
+    const computedX = hasChangedLocation ? otherCoords.x : drop.x + coords.x;
+    const computedY = hasChangedLocation ? otherCoords.y : drop.y + coords.y;
+
+    const updatedDrop = {
+      ...drop,
+      x: computedX,
+      y: computedY,
+      location: dropLocation,
+    };
+    updateDrop(updatedDrop);
   };
 
   const [collectedProps, drop] = useDrop({
