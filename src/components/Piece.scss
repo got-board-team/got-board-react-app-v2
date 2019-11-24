@@ -1,0 +1,45 @@
+$houses: baratheon, greyjoy, lannister, martell, stark, tyrell;
+
+.footman {
+  width: 80px;
+  height: 89px;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background: url("/images/units/footman/#{$house}.png");
+    }
+  }
+}
+
+.knight {
+  width: 80px;
+  height: 97px;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background: url("/images/units/knight/#{$house}.png");
+    }
+  }
+}
+
+.ship {
+  width: 100px;
+  height: 83px;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background: url("/images/units/ship/#{$house}.png");
+    }
+  }
+}
+
+.siege {
+  width: 80px;
+  height: 97px;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background: url("/images/units/siege-engine/#{$house}.png");
+    }
+  }
+}

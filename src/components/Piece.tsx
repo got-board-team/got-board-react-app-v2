@@ -3,10 +3,14 @@ import React from 'react';
 import Draggable from './common/Draggable';
 import { Drop } from "../reducers/drop";
 
-const Piece = React.memo(({id, type, x, y, location}: Drop) => (
-  <Draggable id={id} type={type} x={x} y={y} location={location}>
-    <div className={type}>♘</div>
-  </Draggable>
-));
+import "./Piece.scss";
+
+const Piece = React.memo(({id, type, x, y, location, houseName}: Drop) => {
+  const pieceClassName = `${type} ${type}--${houseName}`;
+
+  return (
+    <Draggable id={id} type={type} x={x} y={y} location={location} houseName={houseName} className={pieceClassName} />
+  );
+});
 
 export default Piece;

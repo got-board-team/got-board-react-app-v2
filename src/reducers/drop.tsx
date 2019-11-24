@@ -1,4 +1,5 @@
 import * as types from "../actions/actionTypes";
+import { PieceKinds, Locations, Houses } from "../constants";
 
 export interface Drop {
   id: number;
@@ -6,6 +7,7 @@ export interface Drop {
   x: number;
   y: number;
   location: string;
+  houseName: string;
 }
 
 interface DropState {
@@ -16,10 +18,38 @@ interface DropState {
 const initialState: DropState = {
   isLoading: false,
   drops: [
-    { id: 1, type: "piece", x: 0, y: 0, location: "war-room" },
-    { id: 2, type: "piece", x: 0, y: 0, location: "war-room" },
-    { id: 3, type: "piece", x: 100, y: 100, location: "map" },
-    { id: 4, type: "piece", x: 143, y: 100, location: "map" },
+    {
+      id: 1,
+      type: PieceKinds.FOOTMAN,
+      x: 0,
+      y: 0,
+      location: Locations.WAR_ROOM,
+      houseName: Houses.BARATHEON,
+    },
+    {
+      id: 2,
+      type: PieceKinds.KNIGHT,
+      x: 0,
+      y: 0,
+      location: Locations.WAR_ROOM,
+      houseName: Houses.BARATHEON,
+    },
+    {
+      id: 3,
+      type: PieceKinds.SIEGE,
+      x: 100,
+      y: 100,
+      location: Locations.MAP,
+      houseName: Houses.BARATHEON,
+    },
+    {
+      id: 4,
+      type: PieceKinds.SHIP,
+      x: 180,
+      y: 100,
+      location: Locations.WAR_ROOM,
+      houseName: Houses.BARATHEON,
+    },
   ],
 };
 
@@ -39,6 +69,7 @@ export default (
           location: drop.location,
           x: drop.x,
           y: drop.y,
+          houseName: drop.houseName,
         },
       ];
 

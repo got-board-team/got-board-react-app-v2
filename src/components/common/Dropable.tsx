@@ -6,7 +6,7 @@ import { updateDrop } from "../../actions/drop";
 import { Drop } from "../../reducers/drop";
 
 interface Props {
-  accept: string;
+  accept: string | Array<string>;
   dropLocation: string;
   dropAction?: (item: any, monitor: any) => void;
   children: ReactNode;
