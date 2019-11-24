@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import Piece from './Piece';
-import Draggable from './Draggable';
-import Dropable from "./Dropable";
-import { addPieceInWarRoom, updatePieceInWarRoom } from "./actions/warRoom";
-import { removePieceFromMap } from "./actions/map";
-import { Drop } from "./reducers/drop";
+import Draggable from './common/Draggable';
+import Dropable from "./common/Dropable";
+import { addPieceInWarRoom, updatePieceInWarRoom } from "../actions/warRoom";
+import { removePieceFromMap } from "../actions/map";
+import { Drop } from "../reducers/drop";
 
 interface WarRoomProps {
   drops: Array<Drop>;

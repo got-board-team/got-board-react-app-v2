@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
 
-import { updateDrop } from "./actions/drop";
-import { Drop } from "./reducers/drop";
+import { updateDrop } from "../../actions/drop";
+import { Drop } from "../../reducers/drop";
 
 interface Props {
   accept: string;

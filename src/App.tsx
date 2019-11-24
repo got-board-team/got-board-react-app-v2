@@ -4,7 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux'
 import Pusher from 'pusher-js';
 
-import Game from "./Game";
+import Game from "./components/Game";
 import store from "./store";
 import './App.css';
 

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useDrag } from 'react-dnd'
 
-import { Drop } from "./reducers/drop";
+import { Drop } from "../../reducers/drop";
 
 interface Props extends Drop {
   children: ReactNode;

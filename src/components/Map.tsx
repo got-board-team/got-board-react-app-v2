@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import Dropable from "./Dropable";
+import Dropable from "./common/Dropable";
 import Piece from './Piece';
-import { Drop } from "./reducers/drop";
+import { Drop } from "../reducers/drop";
 
 interface MapProps {
   drops: Drop[];

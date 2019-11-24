@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import WarRoom from './WarRoom';
 import Map from "./Map";
-import Dropable from "./Dropable";
+import Dropable from "./common/Dropable";
 
 const Game = React.memo(() => {
   const [warRoomPosition, setWarRoomPosition] = useState({x: 600, y: 80});
