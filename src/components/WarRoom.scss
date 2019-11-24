@@ -1,0 +1,19 @@
+.war-room {
+  background-color: rgba(0,0,0,.5);
+  padding: 10px;
+  width: 40vw;
+  height: 60vh;
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__inventory {
+    display: flex;
+  }
+}
+
+.war-room .draggable {
+  position: static;
+}

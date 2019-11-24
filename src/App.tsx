@@ -6,7 +6,7 @@ import Pusher from 'pusher-js';
 
 import Game from "./components/Game";
 import store from "./store";
-import './App.css';
+import './App.scss';
 
 const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const PUSHER_CLUSTER = process.env.REACT_APP_PUSHER_CLUSTER || "";
