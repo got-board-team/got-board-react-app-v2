@@ -1,24 +1,39 @@
 import React, { useState } from 'react';
 
-import WarRoom from './WarRoom';
 import Map from "./Map";
 import Dropable from "./common/Dropable";
+import WarRoom from './WarRoom';
+import Combat from './Combat';
+import { Locations } from "../constants";
 
 const Game = React.memo(() => {
-  const [warRoomPosition, setWarRoomPosition] = useState({x: 600, y: 80});
+  const [uiPanelsPositions, setUiPanelsPositions] = useState({
+    "war-room": {x: 600, y: 80},
+    "combat": {x: 600, y: 80},
+  });
 
-  const updateWarRoomPosition = (item: any, monitor: any) => {
+  const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
     if (newCoords && newCoords.x && newCoords.y) {
       const newX = newCoords.x + warRoomPosition.x;
       const newY = newCoords.y + warRoomPosition.y;
-      setWarRoomPosition({x: newX, y: newY});
+      const newPanelsPositions = {
+        ...uiPanelsPositions,
+        [item.type]: { x: newX, y: newY }
+      };
+      setUiPanelsPositions(newPanelsPositions);
     }
   }
 
+  const warRoomPosition = uiPanelsPositions["war-room"];
+  const combatPosition = uiPanelsPositions["combat"];
+
   return (
-    <Dropable accept="war-room" dropAction={updateWarRoomPosition} dropLocation="game">
-      <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
+    <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
+      <section className="ui__actions-bar">
+        <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
+        <Combat x={combatPosition.x} y={combatPosition.y} />
+      </section>
       <Map />
     </Dropable>
   );

@@ -7,9 +7,9 @@ import Dropable from "./common/Dropable";
 import { Drop } from "../reducers/drop";
 import { AllPieceKinds } from "../constants";
 
-import "./WarRoom.scss";
+import "./Combat.scss";
 
-interface WarRoomProps {
+interface CombatProps {
   drops: Array<Drop>;
   x: number;
   y: number;
@@ -18,19 +18,19 @@ interface WarRoomProps {
 // TODO: To be implemented
 const currentPlayerHouse = "baratheon";
 
-const WarRoom = React.memo(({x, y, drops}: WarRoomProps) => {
+const Combat = React.memo(({x, y, drops}: CombatProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggle = () => setIsVisible(!isVisible);
 
   if (isVisible) {
     return (
-      <Dropable accept={AllPieceKinds} dropLocation="war-room">
-        <Draggable id={0} type="war-room" x={x} y={y} location="game" houseName={currentPlayerHouse} className="ui__panel war-room">
-          <section className="war-room__actions">
+      <Dropable accept={AllPieceKinds} dropLocation="combat">
+        <Draggable id={0} type="combat" x={x} y={y} location="game" houseName={currentPlayerHouse} className="ui__panel combat">
+          <section className="combat__actions">
             <button onClick={toggle}>Close</button>
           </section>
 
-          <section className="war-room__inventory">
+          <section className="combat__inventory">
             {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={currentPlayerHouse} />)}
           </section>
         </Draggable>
@@ -38,13 +38,13 @@ const WarRoom = React.memo(({x, y, drops}: WarRoomProps) => {
     );
   }
 
-  return <button onClick={toggle} className="ui__action">War room</button>;
+  return <button onClick={toggle} className="ui__action">Combat</button>;
 });
 
 const mapStateToProps = (state: any) => ({
-  drops: state.drop.drops.filter((drop: Drop) => drop.location === "war-room"),
+  drops: state.drop.drops.filter((drop: Drop) => drop.location === "combat"),
 });
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(WarRoom);
+export default connect(mapStateToProps, mapDispatchToProps)(Combat);

@@ -24,4 +24,5 @@ export enum Houses {
 export enum Locations {
   MAP = "map",
   WAR_ROOM = "war-room",
+  COMBAT = "combat",
 }

@@ -16,9 +16,20 @@
 }
 
 .ui {
-  &__action {
+  &__actions-bar {
+    background-color: rgba(0,0,0,.5);
     position: absolute;
     z-index: 1;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+
+  &__panel {
+    background-color: rgba(0,0,0,.5);
+    padding: 10px;
+  }
+
+  &__action {
     margin: 5px;
   }
 }
