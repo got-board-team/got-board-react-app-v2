@@ -79,6 +79,11 @@ export default (
     case types.UPDATE_DROP_LOCATION_SUCCESS:
       const otherDrops: Drop[] = state.drops.filter((p: Drop) => p.id !== drop.id);
 
+      const computedSpec = {
+        ...drop.spec,
+        flipped: drop.location === Locations.COMBAT,
+      };
+
       const updatedDrops: Drop[] = [
         ...otherDrops,
         {
@@ -88,7 +93,7 @@ export default (
           x: drop.x,
           y: drop.y,
           houseName: drop.houseName,
-          spec: drop.spec,
+          spec: computedSpec,
         },
       ];
 
