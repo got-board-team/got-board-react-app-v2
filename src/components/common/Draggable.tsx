@@ -8,9 +8,9 @@ interface Props extends Drop {
   className: string;
 }
 
-const Draggable = ({id, x, y, type, children, location, className, houseName}: Props) => {
+const Draggable = ({id, x, y, type, children, location, className, houseName, spec}: Props) => {
   const [{ opacity, left, top }, dragRef] = useDrag({
-    item: { id, type, x, y, location, houseName },
+    item: { id, type, x, y, location, houseName, spec },
     collect: monitor => ({
       left: monitor.getDropResult() ? monitor.getDropResult()['x'] : x,
       top: monitor.getDropResult() ? monitor.getDropResult()['y'] : y,

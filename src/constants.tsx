@@ -3,6 +3,7 @@ export enum PieceKinds {
   KNIGHT = "knight",
   SIEGE = "siege",
   SHIP = "ship",
+  CARD = "card",
 };
 
 export const AllPieceKinds = [
@@ -10,6 +11,7 @@ export const AllPieceKinds = [
   PieceKinds.KNIGHT,
   PieceKinds.SIEGE,
   PieceKinds.SHIP,
+  PieceKinds.CARD,
 ];
 
 export enum Houses {
@@ -25,4 +27,8 @@ export enum Locations {
   MAP = "map",
   WAR_ROOM = "war-room",
   COMBAT = "combat",
+}
+
+export enum Cards {
+  BRIENNE = "brienne",
 }

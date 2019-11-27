@@ -8,8 +8,8 @@ import { Locations } from "../constants";
 
 const Game = React.memo(() => {
   const [uiPanelsPositions, setUiPanelsPositions] = useState({
-    "war-room": {x: 600, y: 80},
-    "combat": {x: 600, y: 80},
+    "war-room": {x: 100, y: 80},
+    "combat": {x: 700, y: 80},
   });
 
   const updateUiPanelPosition = (item: any, monitor: any) => {

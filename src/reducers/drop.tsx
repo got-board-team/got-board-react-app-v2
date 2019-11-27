@@ -1,5 +1,10 @@
 import * as types from "../actions/actionTypes";
-import { PieceKinds, Locations, Houses } from "../constants";
+import { PieceKinds, Locations, Houses, Cards } from "../constants";
+
+interface DropSpec {
+  card?: string;
+  flipped?: boolean;
+}
 
 export interface Drop {
   id: number;
@@ -8,6 +13,7 @@ export interface Drop {
   y: number;
   location: string;
   houseName: string;
+  spec?: DropSpec;
 }
 
 interface DropState {
@@ -50,6 +56,18 @@ const initialState: DropState = {
       location: Locations.WAR_ROOM,
       houseName: Houses.BARATHEON,
     },
+    {
+      id: 5,
+      type: PieceKinds.CARD,
+      x: 180,
+      y: 100,
+      location: Locations.WAR_ROOM,
+      houseName: Houses.BARATHEON,
+      spec: {
+        card: Cards.BRIENNE,
+        flipped: false
+      },
+    },
   ],
 };
 
@@ -70,6 +88,7 @@ export default (
           x: drop.x,
           y: drop.y,
           houseName: drop.houseName,
+          spec: drop.spec,
         },
       ];
 

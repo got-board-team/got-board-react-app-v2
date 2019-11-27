@@ -43,3 +43,20 @@ $houses: baratheon, greyjoy, lannister, martell, stark, tyrell;
     }
   }
 }
+
+.card {
+  width: 300px;
+  height: 472px;
+
+  &__back {
+    @each $house in $houses {
+      &--#{$house} {
+        background: url("/images/cards/#{$house}-card-cover.png");
+      }
+    }
+  }
+
+  &__brienne {
+    background: url("/images/cards/baratheon-brienne.png");
+  }
+}

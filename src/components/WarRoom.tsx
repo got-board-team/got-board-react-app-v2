@@ -31,7 +31,7 @@ const WarRoom = React.memo(({x, y, drops}: WarRoomProps) => {
           </section>
 
           <section className="war-room__inventory">
-            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={currentPlayerHouse} />)}
+            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={currentPlayerHouse} spec={drop.spec} />)}
           </section>
         </Draggable>
       </Dropable>

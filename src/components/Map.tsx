@@ -15,7 +15,7 @@ interface MapProps {
 const Map = React.memo(({drops}: MapProps) => (
   <Dropable accept={AllPieceKinds} dropLocation="map">
     <section className="map">
-      {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} />)}
+      {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={drop.spec} />)}
     </section>
   </Dropable>
 ));
