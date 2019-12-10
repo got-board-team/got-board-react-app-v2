@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useCallback, useEffect} from 'react';
 import { connect } from 'react-redux'
 
 import Piece from './Piece';
@@ -7,6 +7,7 @@ import Dropable from "./common/Dropable";
 import { Drop } from "../reducers/drop";
 import { User } from "../reducers/currentUser";
 import { AllPieceKinds } from "../constants";
+import { revealCards } from "../actions/drop";
 
 import "./Combat.scss";
 
@@ -15,11 +16,15 @@ interface CombatProps {
   drops: Array<Drop>;
   x: number;
   y: number;
+  revealCards: (drops: Drop[]) => void;
 }
 
-const Combat = React.memo(({x, y, drops, currentUser}: CombatProps) => {
+const Combat = React.memo(({x, y, drops, currentUser, revealCards}: CombatProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggle = () => setIsVisible(!isVisible);
+  const reveal = useCallback(() => {
+    revealCards(drops);
+  }, []);
 
   if (isVisible) {
     return (
@@ -27,6 +32,7 @@ const Combat = React.memo(({x, y, drops, currentUser}: CombatProps) => {
         <Draggable id={0} type="combat" x={x} y={y} location="game" className="ui__panel combat">
           <section className="combat__actions">
             <button onClick={toggle}>Close</button>
+            <button onClick={reveal}>Reveal</button>
           </section>
 
           <section className="combat__inventory">
@@ -45,6 +51,8 @@ const mapStateToProps = (state: any) => ({
   currentUser: state.currentUser,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  revealCards,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Combat);

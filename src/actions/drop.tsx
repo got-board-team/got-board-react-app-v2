@@ -9,3 +9,7 @@ const updateDropableSuccessAction = (drop: Drop) => ({
 export const updateDrop = (drop: Drop) => (dispatch: any) => {
   dispatch(updateDropableSuccessAction(drop));
 };
+
+export const revealCards = (drops: Drop[]) => (dispatch: any) => {
+  console.log('Reveal Cards Action', drops);
+}

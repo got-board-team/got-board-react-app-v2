@@ -13,7 +13,8 @@ interface Props {
   updateDrop: (drop: Drop) => void;
 }
 
-const Dropable = ({accept, dropAction, children, updateDrop, dropLocation}: Props) => {
+const Dropable = React.memo(({accept, dropAction, children, updateDrop, dropLocation}: Props) => {
+  // TODO: Make it useCallback?
   const defaultDropAction = (drop: Drop, monitor: any) => {
     const coords = monitor.getDifferenceFromInitialOffset();
     const otherCoords = monitor.getSourceClientOffset();
@@ -41,7 +42,7 @@ const Dropable = ({accept, dropAction, children, updateDrop, dropLocation}: Prop
   });
 
   return <div className="dropable" ref={drop}>{children}</div>;
-}
+});
 
 const mapStateToProps = (state: any) => ({
   drops: state.drop.drops.filter((drop: Drop) => drop.location === "map"),
