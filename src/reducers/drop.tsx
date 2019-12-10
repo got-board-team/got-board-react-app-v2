@@ -3,7 +3,7 @@ import { PieceKinds, Locations, Houses, Cards } from "../constants";
 
 interface DropSpec {
   card?: string;
-  flipped?: boolean;
+  flipped?: boolean; // When it's flipped, the user sees it's back cover.
 }
 
 export interface Drop {
@@ -12,7 +12,7 @@ export interface Drop {
   x: number;
   y: number;
   location: string;
-  houseName: string;
+  houseName?: string; // Optional for Combat but not for Pieces
   spec?: DropSpec;
 }
 
