@@ -31,7 +31,7 @@ const Combat = React.memo(({x, y, drops}: CombatProps) => {
           </section>
 
           <section className="combat__inventory">
-            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={currentPlayerHouse} spec={drop.spec} />)}
+            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={drop.spec} />)}
           </section>
         </Draggable>
       </Dropable>
