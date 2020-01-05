@@ -75,31 +75,44 @@ export default (
   state = initialState,
   { type, drop }: {type: string, drop: Drop}
 ) => {
-  switch (type) {
-    case types.UPDATE_DROP_LOCATION_SUCCESS:
-      const otherDrops: Drop[] = state.drops.filter((p: Drop) => p.id !== drop.id);
 
+  switch (type) {
+    case types.UPDATE_DROP_REVEAL_COMBAT_SUCCESS:
+      const flippedSpec = {
+        ...drop.spec,
+        flipped: false,
+      };
+
+      return {
+        isLoading: false,
+        drops: [
+          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          {
+            ...drop,
+            spec: flippedSpec,
+          },
+        ],
+      };
+    case types.UPDATE_DROP_LOCATION_SUCCESS:
       const computedSpec = {
         ...drop.spec,
         flipped: drop.location === Locations.COMBAT,
       };
 
-      const updatedDrops: Drop[] = [
-        ...otherDrops,
-        {
-          id: drop.id,
-          type: drop.type,
-          location: drop.location,
-          x: drop.x,
-          y: drop.y,
-          houseName: drop.houseName,
-          spec: computedSpec,
-        },
-      ];
-
       return {
         isLoading: false,
-        drops: updatedDrops,
+        drops: [
+          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          {
+            id: drop.id,
+            type: drop.type,
+            location: drop.location,
+            x: drop.x,
+            y: drop.y,
+            houseName: drop.houseName,
+            spec: computedSpec,
+          },
+        ],
       };
     default:
       return state;

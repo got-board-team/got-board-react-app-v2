@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux'
 
 import Piece from './Piece';
@@ -24,7 +24,7 @@ const Combat = React.memo(({x, y, drops, currentUser, revealCards}: CombatProps)
   const toggle = () => setIsVisible(!isVisible);
   const reveal = useCallback(() => {
     revealCards(drops);
-  }, []);
+  }, [drops, revealCards]);
 
   if (isVisible) {
     return (
@@ -36,7 +36,7 @@ const Combat = React.memo(({x, y, drops, currentUser, revealCards}: CombatProps)
           </section>
 
           <section className="combat__inventory">
-            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={{...drop.spec, flipped: drop.houseName !== currentUser.houseName}} />)}
+            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={{...drop.spec, flipped: drop.houseName !== currentUser.houseName && (drop && drop.spec && drop.spec.flipped)}} />)}
           </section>
         </Draggable>
       </Dropable>
