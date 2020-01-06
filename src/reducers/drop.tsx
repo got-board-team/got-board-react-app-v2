@@ -111,6 +111,7 @@ export default (
         ],
       };
     case types.UPDATE_DROP_LOCATION_SUCCESS:
+      console.log('reducer', types.UPDATE_DROP_LOCATION_SUCCESS)
       const computedSpec = {
         ...drop.spec,
         flipped: drop.location === Locations.COMBAT,

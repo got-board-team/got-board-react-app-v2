@@ -4,6 +4,7 @@ import { Drop } from "../reducers/drop";
 const updateDropableSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_LOCATION_SUCCESS,
   drop,
+  isPusherDispatch: true,
 });
 
 export const updateDrop = (drop: Drop) => (dispatch: any) => {
@@ -22,6 +23,7 @@ export const revealCards = (drops: Drop[]) => (dispatch: any) => {
 
 const resetCombatSuccessAction = () => ({
   type: types.RESET_COMBAT_SUCCESS,
+  isPusherDispatch: true,
 });
 
 export const resetCombat = () => (dispatch: any) => {

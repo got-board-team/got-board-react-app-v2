@@ -14,8 +14,9 @@ const ApiClient = (payload) => {
 
 export default () => store => next => action => {
   if (action.isPusherDispatch) {
-    const { type, isPusherDispatch, ...payload  } = action;
-    ApiClient(payload)
+    // Extracting isPusherDispatch key from the payload
+    const { isPusherDispatch, ...payload  } = action;
+    ApiClient({ ...payload, dispatchAuthor: {houseName: "stark"} })
       .then(response => response.json())
       .then(json => {
         console.log("Response", json);
@@ -24,5 +25,6 @@ export default () => store => next => action => {
         console.error(exception);
       });
   }
+
   next(action);
 };

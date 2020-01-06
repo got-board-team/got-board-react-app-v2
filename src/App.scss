@@ -5,6 +5,9 @@
 .draggable {
   position: absolute;
   z-index: 1;
+  transition-property: top left;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
 }
 
 .ui {

@@ -18,8 +18,12 @@ const App: React.FC = () => {
       encrypted: true
     });
     const channel = pusher.subscribe('game');
-    channel.bind('update', data => {
-      console.log('From pusher update:', data);
+    channel.bind('update', action => {
+      console.log("Dispatching", action);
+      // Only dispatch if author is different
+      if (store.getState()["currentUser"]["houseName"] !== action.dispatchAuthor) {
+        store.dispatch(action);
+      }
     });
   }, []);
 
