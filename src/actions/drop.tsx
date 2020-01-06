@@ -13,6 +13,7 @@ export const updateDrop = (drop: Drop) => (dispatch: any) => {
 const updateFlippedSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_REVEAL_COMBAT_SUCCESS,
   drop,
+  pDispatch: true,
 });
 
 export const revealCards = (drops: Drop[]) => (dispatch: any) => {
@@ -24,6 +25,5 @@ const resetCombatSuccessAction = () => ({
 });
 
 export const resetCombat = () => (dispatch: any) => {
-  console.log('resetCombat action')
   dispatch(resetCombatSuccessAction());
 }

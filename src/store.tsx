@@ -3,6 +3,7 @@ import ReduxThunk from "redux-thunk";
 
 import * as Reducers from './reducers'
 import * as types from "./actions/actionTypes";
+import PusherDispatcher from "./PusherDispatcher";
 
 const reducers = {...Reducers};
 
@@ -18,7 +19,8 @@ const rootReducer = (state: any, action: any) => {
   return appReducer(state, action);
 };
 
-const middleware = [ReduxThunk];
+const pDispatcher = PusherDispatcher();
+const middleware = [  ReduxThunk, pDispatcher ];
 let enhancer = applyMiddleware(...middleware);
 
 // Start setup for the ReduxDev Tools ----------------------

@@ -73,7 +73,7 @@ const initialState: DropState = {
 
 export default (
   state = initialState,
-  { type, drop }: {type: string, drop: Drop}
+  { type, drop, pDispatch }: {type: string, drop: Drop, pDispatch: boolean}
 ) => {
   switch (type) {
     case types.RESET_COMBAT_SUCCESS:
