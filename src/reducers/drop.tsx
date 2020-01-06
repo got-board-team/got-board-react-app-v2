@@ -75,8 +75,25 @@ export default (
   state = initialState,
   { type, drop }: {type: string, drop: Drop}
 ) => {
-
   switch (type) {
+    case types.RESET_COMBAT_SUCCESS:
+      const dropsInCombat: Drop[] = state.drops.filter((p: Drop) => p.location === Locations.COMBAT)
+      const resetedDrops: Drop[] = dropsInCombat.map(d => ({
+        ...d,
+        location: Locations.WAR_ROOM,
+        spec: {
+          ...d.spec,
+          flipped: false,
+        }
+      }));
+
+      return {
+        isLoading: false,
+        drops: [
+          ...state.drops.filter((p: Drop) => p.location !== Locations.COMBAT),
+          ...resetedDrops,
+        ],
+      };
     case types.UPDATE_DROP_REVEAL_COMBAT_SUCCESS:
       const flippedSpec = {
         ...drop.spec,

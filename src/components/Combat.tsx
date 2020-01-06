@@ -7,7 +7,7 @@ import Dropable from "./common/Dropable";
 import { Drop } from "../reducers/drop";
 import { User } from "../reducers/currentUser";
 import { AllPieceKinds } from "../constants";
-import { revealCards } from "../actions/drop";
+import { revealCards, resetCombat } from "../actions/drop";
 
 import "./Combat.scss";
 
@@ -17,11 +17,17 @@ interface CombatProps {
   x: number;
   y: number;
   revealCards: (drops: Drop[]) => void;
+  resetCombat: () => void;
 }
 
-const Combat = React.memo(({x, y, drops, currentUser, revealCards}: CombatProps) => {
+const Combat = React.memo(({x, y, drops, currentUser, revealCards, resetCombat}: CombatProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const toggle = () => setIsVisible(!isVisible);
+  const toggle = useCallback(() => {
+    setIsVisible(!isVisible);
+    if (isVisible) {
+      resetCombat();
+    }
+  }, [isVisible, resetCombat]);
   const reveal = useCallback(() => {
     revealCards(drops);
   }, [drops, revealCards]);
@@ -53,6 +59,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   revealCards,
+  resetCombat,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Combat);
