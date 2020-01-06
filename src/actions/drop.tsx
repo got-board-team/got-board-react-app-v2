@@ -13,7 +13,7 @@ export const updateDrop = (drop: Drop) => (dispatch: any) => {
 const updateFlippedSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_REVEAL_COMBAT_SUCCESS,
   drop,
-  pDispatch: true,
+  isPusherDispatch: true,
 });
 
 export const revealCards = (drops: Drop[]) => (dispatch: any) => {
