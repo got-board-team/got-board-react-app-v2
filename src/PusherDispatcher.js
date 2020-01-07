@@ -16,7 +16,8 @@ export default () => store => next => action => {
   if (action.isPusherDispatch) {
     // Extracting isPusherDispatch key from the payload
     const { isPusherDispatch, ...payload  } = action;
-    ApiClient({ ...payload, dispatchAuthor: {houseName: "stark"} })
+    const currentUser = store.getState()["currentUser"]["houseName"];
+    ApiClient({ ...payload, dispatchAuthor: { houseName: currentUser } })
       .then(response => response.json())
       .then(json => {
         console.log("Response", json);

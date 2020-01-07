@@ -19,9 +19,13 @@ const App: React.FC = () => {
     });
     const channel = pusher.subscribe('game');
     channel.bind('update', action => {
-      console.log("Dispatching", action);
+      // Mock currenUser for now
+      const currentUser = "baratheon";
+      //const currentUser = store.getState()["currentUser"]["houseName"];
+
       // Only dispatch if author is different
-      if (store.getState()["currentUser"]["houseName"] !== action.dispatchAuthor) {
+      if (currentUser !== action.dispatchAuthor) {
+        console.log("Dispatching", action);
         store.dispatch(action);
       }
     });
