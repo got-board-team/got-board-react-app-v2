@@ -11,4 +11,7 @@ export const RESET_COMBAT_SUCCESS = "RESET_COMBAT_SUCCESS";
 export const GET_USER = "GET_USER";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 
+export const NEW_GAME = "NEW_GAME";
+export const NEW_GAME_SUCCESS = "NEW_GAME_SUCCESS";
+
 export const CLEAR_REDUX_STATE = "CLEAR_REDUX_STATE";
