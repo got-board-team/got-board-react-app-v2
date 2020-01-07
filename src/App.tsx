@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux'
 import Pusher from 'pusher-js';
+import { BrowserRouter } from "react-router-dom";
 
-import Game from "./components/Game";
+import Router from "./components/Router";
 import store from "./store";
 import './App.scss';
 
@@ -33,11 +34,15 @@ const App: React.FC = () => {
 
   return (
     <Provider store={store}>
-      <DndProvider backend={HTML5Backend}>
-        <div className="app">
-          <Game />
-        </div>
-      </DndProvider>
+      <BrowserRouter>
+        <Suspense fallback={<div>Loading...</div>}>
+          <DndProvider backend={HTML5Backend}>
+            <div className="app">
+              <Router />
+            </div>
+          </DndProvider>
+        </Suspense>
+      </BrowserRouter>
     </Provider>
   );
 };

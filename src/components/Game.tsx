@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 import Map from "./Map";
 import Dropable from "./common/Dropable";
@@ -31,6 +32,7 @@ const Game = React.memo(() => {
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
       <section className="ui__actions-bar">
+        <Link to="/"><button>Home</button></Link>
         <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
         <Combat x={combatPosition.x} y={combatPosition.y} />
       </section>
