@@ -1,24 +1,24 @@
 import * as types from "../actions/actionTypes";
 
-interface GameState {
+export interface GameState {
   isLoading: boolean;
-  games: Game[];
+  matches: Match[];
 }
 
-interface Game {
-  id: number;
+export interface Match {
+  id: number | null;
   name: string;
   playersCount: number;
 }
 
 const initialState: GameState = {
   isLoading: false,
-  games: [],
+  matches: [],
 };
 
 export default (
   state = initialState,
-  { type, game }: {type: string, game: Game}
+  { type, match }: {type: string, match: Match}
 ) => {
   switch (type) {
     case types.NEW_GAME:
@@ -27,20 +27,20 @@ export default (
         isLoading: true,
       };
     case types.NEW_GAME_SUCCESS:
-      const newGame: Game = {
-        id: state.games.length + 2,
-        name: game.name,
-        playersCount: game.playersCount,
+      const newGame: Match = {
+        id: state.matches.length + 1,
+        name: match.name,
+        playersCount: match.playersCount,
       };
       const updatedGames = [
-        ...state.games,
+        ...state.matches,
         newGame,
       ];
 
       return {
         ...state,
         isLoading: false,
-        games: updatedGames,
+        matches: updatedGames,
       };
     default:
       return state;

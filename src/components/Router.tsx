@@ -3,13 +3,13 @@ import { Route, Switch } from "react-router-dom";
 
 import Home from "./Home";
 import Game from "./Game";
-import NewGame from "./NewGame";
+import NewMatch from "./NewMatch";
 
 const Router = React.memo(() => (
   <Switch>
     <Route exact path="/" render={() => <Home />} />
-    <Route exact path="/new-game" render={() => <NewGame />} />
-    <Route exact path="/games/1" render={() => <Game />} />
+    <Route exact path="/new-match" render={() => <NewMatch />} />
+    <Route exact path="/matches/:id" render={() => <Game />} />
   </Switch>
 ));
 

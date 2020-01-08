@@ -1,19 +1,29 @@
 import React, { useState, useCallback } from "react";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from 'react-redux'
 
-const DEFAULT_GAME_PRESET = {
-  gameName: "",
+import { createMatch } from "../actions/game";
+import { Match, GameState } from "../reducers/game";
+
+const DEFAULT_GAME_PRESET: Match = {
+  id: null,
+  name: "",
   playersCount: 3
 };
 
-const NewGame = React.memo(() => {
+interface Props {
+  games: GameState;
+  createMatch: (match: Match) => void;
+}
+
+const NewMatch = React.memo(({ games, createMatch }: Props) => {
   const [newGame, setNewGame] = useState(DEFAULT_GAME_PRESET);
   const [gameCreated, setGameCreate] = useState(false);
 
-  const createGame = useCallback(() => {
-    console.log("Set new game to redux", newGame);
+  const createNewGame = useCallback(() => {
+    createMatch(newGame);
     setGameCreate(true);
-  }, [newGame]);
+  }, [newGame, createMatch]);
 
   if (gameCreated) {
     return <Redirect to="/" />;
@@ -26,7 +36,7 @@ const NewGame = React.memo(() => {
       </nav>
 
       <section>
-        <h1>New Game</h1>
+        <h1>New Match</h1>
         <form>
           <fieldset>
             <input
@@ -35,7 +45,7 @@ const NewGame = React.memo(() => {
               onChange={(e) => {
                 setNewGame({
                   ...newGame,
-                  gameName: e.target.value,
+                  name: e.target.value,
                 })}
               } /><br />
             <select onChange={(e) => setNewGame({
@@ -48,11 +58,19 @@ const NewGame = React.memo(() => {
               <option value="6">6 Players</option>
             </select><br />
           </fieldset>
-          <input type="button" onClick={createGame} value="Create Game" />
+          <input type="button" onClick={createNewGame} value="Create Game" />
         </form>
       </section>
     </section>
   );
 });
 
-export default NewGame;
+const mapStateToProps = (state: any) => ({
+  games: state.games,
+});
+
+const mapDispatchToProps = {
+  createMatch,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewMatch);
