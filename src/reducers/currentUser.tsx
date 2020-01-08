@@ -3,15 +3,18 @@ import { Houses } from "../constants";
 
 interface CurrentUserState {
   isLoading: boolean;
+  id: number;
   houseName: string;
 }
 
 export interface User {
+  id: number;
   houseName: string;
 }
 
 const initialState: CurrentUserState = {
   isLoading: false,
+  id: 1,
   houseName: Houses.BARATHEON,
 };
 

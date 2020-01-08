@@ -8,7 +8,8 @@ import { Match, GameState } from "../reducers/game";
 const DEFAULT_GAME_PRESET: Match = {
   id: null,
   name: "",
-  playersCount: 3
+  playersCount: 3,
+  houses: [],
 };
 
 interface Props {
