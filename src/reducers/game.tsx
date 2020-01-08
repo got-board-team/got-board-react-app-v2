@@ -13,7 +13,13 @@ export interface Match {
 
 const initialState: GameState = {
   isLoading: false,
-  matches: [],
+  matches: [
+    {
+      id: 1,
+      name: "Lets start",
+      playersCount: 3,
+    }
+  ],
 };
 
 export default (

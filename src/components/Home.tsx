@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 
-import { Match, GameState } from "../reducers/game";
+import { GameState } from "../reducers/game";
 
 interface HomeProps {
   game: GameState;
