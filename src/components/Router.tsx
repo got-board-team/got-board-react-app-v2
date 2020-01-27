@@ -7,7 +7,7 @@ import NewMatch from "./NewMatch";
 
 const Router = React.memo(() => (
   <Switch>
-    <Route exact path="/" render={() => <Home />} />
+    <Route exact path="/" render={(props) => <Home history={props.history} />} />
     <Route exact path="/new-match" render={() => <NewMatch />} />
     <Route exact path="/matches/:id" render={() => <Game />} />
   </Switch>

@@ -7,11 +7,13 @@ import { Houses } from "../constants";
 
 interface HomeProps {
   game: GameState;
+  history: any;
 }
 
 interface JoinMatchProps {
   matchId: number;
   playerCount: number;
+  history: any;
 }
 
 // TODO: Extract to a model file
@@ -48,9 +50,9 @@ const HousesModels = (playerCount: number) => {
   }
 }
 
-const JoinMatch = React.memo(({matchId, playerCount}: JoinMatchProps) => {
+const JoinMatch = React.memo(({matchId, playerCount, history}: JoinMatchProps) => {
   const selectHouse = useCallback((selectedMatchId, selectedHouseId) => {
-    console.log(`selected ${selectedMatchId} : ${selectedHouseId}`)
+    history.push(`/matches/${selectedMatchId}`);
   }, []);
 
   return (
@@ -61,14 +63,14 @@ const JoinMatch = React.memo(({matchId, playerCount}: JoinMatchProps) => {
   );
 });
 
-const Home = React.memo(({ game }: HomeProps) => (
+const Home = React.memo(({ game, history }: HomeProps) => (
   <section>
     <nav>
       <Link to="/new-match">New Match</Link><br />
       {game && game.matches.map(match => match && match.id && (
         <p key={match.id}>
           <Link to={`/matches/${match.id}`}>Match {match.name} ({match.playersCount} players)</Link>
-          <JoinMatch matchId={match.id} playerCount={match.playersCount} />
+          <JoinMatch matchId={match.id} playerCount={match.playersCount} history={history} />
           <hr />
         </p>
       ))}
