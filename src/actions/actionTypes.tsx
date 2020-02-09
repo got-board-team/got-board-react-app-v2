@@ -13,5 +13,6 @@ export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 
 export const NEW_GAME = "NEW_GAME";
 export const NEW_GAME_SUCCESS = "NEW_GAME_SUCCESS";
+export const JOIN_MATCH_SUCCESS = "JOIN_MATCH_SUCCESS";
 
 export const CLEAR_REDUX_STATE = "CLEAR_REDUX_STATE";

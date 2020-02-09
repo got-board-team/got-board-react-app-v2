@@ -6,6 +6,17 @@ export interface GameState {
   matches: Match[];
 }
 
+interface JoinMatchAttr {
+  id: number;
+  playerId: number;
+  houseId: number;
+}
+
+interface GameAction {
+  newMatch: Match;
+  joinMatch: JoinMatchAttr;
+}
+
 interface House {
   type: string;
   playerId: number;
@@ -37,7 +48,7 @@ const initialState: GameState = {
 
 export default (
   state = initialState,
-  { type, match }: {type: string, match: Match}
+  { type, action }: {type: string, action: GameAction}
 ) => {
   switch (type) {
     case types.NEW_GAME:
@@ -61,6 +72,18 @@ export default (
         ...state,
         isLoading: false,
         matches: updatedGames,
+      };
+    case types.JOIN_MATCH_SUCCESS:
+      const otherMatches = state.matches.filter(m => m.id !== match.id);
+      const currentMatch = state.matches.find(m => m.id === match.id);
+      console.log("-----");
+      console.log(match);
+      console.log("-----");
+
+      return {
+        ...state,
+        isLoading: false,
+        matches: [],//[...otherMatches, currentMatch],
       };
     default:
       return state;

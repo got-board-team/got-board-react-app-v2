@@ -1,7 +1,7 @@
 import * as types from "../actions/actionTypes";
 import { Houses } from "../constants";
 
-interface CurrentUserState {
+export interface CurrentUserState {
   isLoading: boolean;
   id: number;
   houseName: string;
