@@ -23,7 +23,7 @@ export interface House {
 }
 
 export interface Match {
-  id: number | null;
+  id: number;
   name: string;
   playersCount: number;
   houses: House[];

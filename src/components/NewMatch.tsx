@@ -6,7 +6,7 @@ import { createMatch } from "../actions/game";
 import { Match, GameState } from "../reducers/game";
 
 const DEFAULT_GAME_PRESET: Match = {
-  id: null,
+  id: -1,
   name: "",
   playersCount: 3,
   houses: [],

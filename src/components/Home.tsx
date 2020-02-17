@@ -16,7 +16,7 @@ interface HomeProps {
 interface JoinMatchProps {
   match: Match;
   currentUserId: number;
-  joinMatchAction: (matchId: number, houseName: string, playerId: number) => void,
+  joinMatchAction: (selectedMatchId: number, selectedHouseName: Houses) => void,
 }
 
 // TODO: Extract to a model file
@@ -63,10 +63,6 @@ const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatch
     setSelectedHouse(!hasSelectedHouse);
   }, [hasSelectedHouse]);
 
-  const selectHouse = useCallback((selectedMatchId, selectedHouseName) => {
-    joinMatchAction(selectedMatchId, selectedHouseName, currentUserId);
-  }, [currentUserId, joinMatchAction]);
-
   const hasJoinedMatch: boolean = !!(match.houses.find(house => house.playerId === currentUserId));
 
   if (hasJoinedMatch) {
@@ -79,7 +75,7 @@ const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatch
     return (
       <nav>
         <p>Join as:</p>
-        {joinableHouses.map(house => <p key={house.type}><button onClick={event => selectHouse(match.id, house.type)}>{house.type}</button></p>)}
+        {joinableHouses.map(house => <p key={house.type}><button onClick={event => joinMatchAction(match.id, house.type)}>{house.type}</button></p>)}
       </nav>
     );
   }
@@ -87,14 +83,20 @@ const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatch
   return (<p><button onClick={showHouses}>Join match {match.name} ({match.playersCount} players)</button></p>);
 });
 
-const Home = React.memo(({ game, currentUser, joinMatch }: HomeProps) => (
-  <section>
-    <nav>
-      <Link to="/new-match">New Match</Link><br />
-      {game && game.matches.map(match => <JoinMatch match={match} joinMatchAction={joinMatch} currentUserId={currentUser.id} />)}
-    </nav>
-  </section>
-));
+const Home = React.memo(({ game, currentUser, joinMatch }: HomeProps) => {
+  const joinMatchAction = useCallback((selectedMatchId, selectedHouseName) => {
+    joinMatch(selectedMatchId, selectedHouseName, currentUser.id);
+  }, [currentUser, joinMatch]);
+
+  return (
+    <section>
+      <nav>
+        <Link to="/new-match">New Match</Link><br />
+        {game && game.matches.map(match => <JoinMatch match={match} joinMatchAction={joinMatchAction} currentUserId={currentUser.id} />)}
+      </nav>
+    </section>
+  );
+});
 
 const mapStateToProps = (state: any) => ({
   game: state.game,
