@@ -9,7 +9,7 @@ export interface GameState {
 interface JoinMatchAttr {
   id: number;
   playerId: number;
-  houseName: string;
+  houseName: Houses;
 }
 
 interface GameAction {
@@ -17,9 +17,9 @@ interface GameAction {
   joinMatch: JoinMatchAttr;
 }
 
-interface House {
-  type: string;
-  playerId: number;
+export interface House {
+  type: Houses;
+  playerId: number | null;
 }
 
 export interface Match {

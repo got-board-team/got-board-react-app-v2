@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 
-import { GameState, Match } from "../reducers/game";
+import { GameState, Match, House } from "../reducers/game";
 import { CurrentUserState } from "../reducers/currentUser";
 import { joinMatch } from "../actions/joinMatch";
 import { Houses } from "../constants";
@@ -20,34 +20,37 @@ interface JoinMatchProps {
 }
 
 // TODO: Extract to a model file
-const ThreePlayerHouses = [
-  { id: 1, name: Houses.BARATHEON },
-  { id: 2, name: Houses.LANNISTER },
-  { id: 3, name: Houses.STARK },
+const threePlayersMatch: House[] = [
+  { type: Houses.BARATHEON, playerId: null },
+  { type: Houses.LANNISTER, playerId: null },
+  { type: Houses.STARK, playerId: null },
 ];
 
-const HousesModels = (playerCount: number) => {
+const fourPlayersMatch: House[] = [
+  ...threePlayersMatch,
+  { type: Houses.MARTELL, playerId: null },
+];
+
+const fivePlayersMatch: House[] = [
+  ...fourPlayersMatch,
+  { type: Houses.GREYJOY, playerId: null },
+];
+
+const sixPlayersMatch: House[] = [
+  ...fivePlayersMatch,
+  { type: Houses.TYRELL, playerId: null },
+];
+
+const HousesModels = (playerCount: number): House[] => {
   switch (playerCount) {
     case 3:
-      return ThreePlayerHouses;
+      return threePlayersMatch;
     case 4:
-      return [
-        ...ThreePlayerHouses,
-        { id: 4, name: Houses.MARTELL },
-      ];
+      return fourPlayersMatch;
     case 5:
-      return [
-        ...ThreePlayerHouses,
-        { id: 4, name: Houses.MARTELL },
-        { id: 5, name: Houses.GREYJOY },
-      ];
+      return fivePlayersMatch;
     case 6:
-      return [
-        ...ThreePlayerHouses,
-        { id: 4, name: Houses.MARTELL },
-        { id: 5, name: Houses.GREYJOY },
-        { id: 6, name: Houses.TYRELL },
-      ];
+      return sixPlayersMatch;
     default:
       return [];
   }
@@ -64,22 +67,24 @@ const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatch
     joinMatchAction(selectedMatchId, selectedHouseName, currentUserId);
   }, [match, currentUserId]);
 
-  if (hasSelectedHouse) {
-    const hasJoinedMatch: boolean = !!(match.houses.find(house => house.playerId === currentUserId));
+  const hasJoinedMatch: boolean = !!(match.houses.find(house => house.playerId === currentUserId));
 
-    if (hasJoinedMatch) {
-      return (<Link to={`/matches/${match.id}`}>Return to match {match.name} ({match.playersCount} players)</Link>);
-    }
+  if (hasJoinedMatch) {
+    return (<p><Link to={`/matches/${match.id}`}>Return to match {match.name} ({match.playersCount} players)</Link></p>);
+  }
+
+  if (hasSelectedHouse) {
+    const joinableHouses = HousesModels(match.playersCount).filter(house => !match.houses.map(h => h.type).includes(house.type));
 
     return (
       <nav>
         <p>Join as:</p>
-        {HousesModels(match.playersCount).map(house => <p key={house.id}><button onClick={event => selectHouse(match.id, house.name)}>{house.name}</button></p>)}
+        {joinableHouses.map(house => <p key={house.type}><button onClick={event => selectHouse(match.id, house.type)}>{house.type}</button></p>)}
       </nav>
     );
   }
 
-  return (<button onClick={showHouses}>Join match {match.name} ({match.playersCount} players)</button>);
+  return (<p><button onClick={showHouses}>Join match {match.name} ({match.playersCount} players)</button></p>);
 });
 
 const Home = React.memo(({ game, currentUser, joinMatch }: HomeProps) => (
