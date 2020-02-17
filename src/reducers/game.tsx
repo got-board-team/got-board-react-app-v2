@@ -9,7 +9,7 @@ export interface GameState {
 interface JoinMatchAttr {
   id: number;
   playerId: number;
-  houseId: number;
+  houseName: string;
 }
 
 interface GameAction {
@@ -59,8 +59,8 @@ export default (
     case types.NEW_GAME_SUCCESS:
       const newGame: Match = {
         id: state.matches.length + 1,
-        name: match.name,
-        playersCount: match.playersCount,
+        name: action.newMatch.name,
+        playersCount: action.newMatch.playersCount,
         houses: [],
       };
       const updatedGames = [
@@ -74,16 +74,39 @@ export default (
         matches: updatedGames,
       };
     case types.JOIN_MATCH_SUCCESS:
-      const otherMatches = state.matches.filter(m => m.id !== match.id);
-      const currentMatch = state.matches.find(m => m.id === match.id);
-      console.log("-----");
-      console.log(match);
-      console.log("-----");
+      const otherMatches = state.matches.filter(m => m.id !== action.joinMatch.id);
+      const currentMatch = state.matches.find(m => m.id === action.joinMatch.id);
+
+      console.log(action.joinMatch);
+      console.log(otherMatches);
+      console.log(currentMatch);
+
+      if (!currentMatch) {
+        return {
+          ...state,
+          isLoading: false,
+          matches: [],
+        };
+      }
+
+      console.log('kasjlkasjla')
+
+      const currentHouses = currentMatch.houses;
+      const updatedMatch = {
+        ...currentMatch,
+        houses: [
+          ...currentHouses,
+          {
+            type: action.joinMatch.houseName,
+            playerId: action.joinMatch.playerId,
+          }
+        ]
+      }
 
       return {
         ...state,
         isLoading: false,
-        matches: [],//[...otherMatches, currentMatch],
+        matches: [...otherMatches, updatedMatch],
       };
     default:
       return state;

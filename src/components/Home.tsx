@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 
-import { GameState } from "../reducers/game";
+import { GameState, Match } from "../reducers/game";
 import { CurrentUserState } from "../reducers/currentUser";
 import { joinMatch } from "../actions/joinMatch";
 import { Houses } from "../constants";
@@ -10,14 +10,13 @@ import { Houses } from "../constants";
 interface HomeProps {
   game: GameState;
   currentUser: CurrentUserState;
-  mapActionToProps: () => void,
+  joinMatch: (matchId: number, houseName: string, playerId: number) => void,
 }
 
 interface JoinMatchProps {
-  matchId: number;
-  playerCount: number;
+  match: Match;
   currentUserId: number;
-  joinMatchAction: (matchId: number, houseId: number, playerId: number) => void,
+  joinMatchAction: (matchId: number, houseName: string, playerId: number) => void,
 }
 
 // TODO: Extract to a model file
@@ -54,30 +53,38 @@ const HousesModels = (playerCount: number) => {
   }
 }
 
-const JoinMatch = React.memo(({matchId, playerCount, currentUserId, joinMatchAction}: JoinMatchProps) => {
-  const selectHouse = useCallback((selectedMatchId, selectedHouseId) => {
-    console.log(`selected ${selectedMatchId} : ${selectedHouseId}`);
-    joinMatchAction(selectedMatchId, selectedHouseId, currentUserId);
-  }, []);
+const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatchProps) => {
+  const [hasSelectedHouse, setSelectedHouse] = useState(false);
 
-  return (
-    <nav>
-      <p>Join as:</p>
-      {HousesModels(playerCount).map(house => <p><button onClick={event => selectHouse(matchId, house.id)}>{house.name}</button></p>)}
-    </nav>
-  );
+  const showHouses = useCallback(() => {
+    setSelectedHouse(!hasSelectedHouse);
+  }, [hasSelectedHouse]);
+
+  const selectHouse = useCallback((selectedMatchId, selectedHouseName) => {
+    joinMatchAction(selectedMatchId, selectedHouseName, currentUserId);
+  }, [match, currentUserId]);
+
+  if (hasSelectedHouse) {
+    return (
+      <nav>
+        <p>Join as:</p>
+        {HousesModels(match.playersCount).map(house => <p><button onClick={event => selectHouse(match.id, house.name)}>{house.name}</button></p>)}
+      </nav>
+    );
+  }
+
+  return (<button onClick={showHouses}>Join match {match.name} ({match.playersCount} players)</button>);
+  //return (<Link to={`/matches/${match.id}`}></Link>);
 });
 
-const Home = React.memo(({ game, currentUser }: HomeProps) => (
+const Home = React.memo(({ game, currentUser, joinMatch }: HomeProps) => (
   <section>
     <nav>
       <Link to="/new-match">New Match</Link><br />
       {game && game.matches.map(match => match && match.id && (
-        <p key={match.id}>
-          <Link to={`/matches/${match.id}`}>Match {match.name} ({match.playersCount} players)</Link>
-          <JoinMatch matchId={match.id} playerCount={match.playersCount} joinMatchAction={joinMatch} currentUserId={currentUser.id} />
-          <hr />
-        </p>
+        <div key={match.id}>
+          <JoinMatch match={match} joinMatchAction={joinMatch} currentUserId={currentUser.id} />
+        </div>
       ))}
     </nav>
   </section>
@@ -88,8 +95,8 @@ const mapStateToProps = (state: any) => ({
   currentUser: state.currentUser,
 });
 
-const mapActionToProps = () => ({
+const mapActionToProps = {
   joinMatch,
-});
+};
 
 export default connect(mapStateToProps, mapActionToProps)(Home);

@@ -9,7 +9,9 @@ const newGameAction = () => ({
 const newGameSuccessAction = (match: Match) => ({
   type: types.NEW_GAME_SUCCESS,
   isLoading: false,
-  match,
+  action: {
+    match,
+  },
 });
 
 export const createMatch = (match: Match) => (dispatch: any) => {
