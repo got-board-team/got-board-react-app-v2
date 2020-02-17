@@ -65,7 +65,7 @@ const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatch
 
   const selectHouse = useCallback((selectedMatchId, selectedHouseName) => {
     joinMatchAction(selectedMatchId, selectedHouseName, currentUserId);
-  }, [match, currentUserId]);
+  }, [currentUserId, joinMatchAction]);
 
   const hasJoinedMatch: boolean = !!(match.houses.find(house => house.playerId === currentUserId));
 
