@@ -65,27 +65,28 @@ const JoinMatch = React.memo(({match, currentUserId, joinMatchAction}: JoinMatch
   }, [match, currentUserId]);
 
   if (hasSelectedHouse) {
+    const hasJoinedMatch: boolean = !!(match.houses.find(house => house.playerId === currentUserId));
+
+    if (hasJoinedMatch) {
+      return (<Link to={`/matches/${match.id}`}>Return to match {match.name} ({match.playersCount} players)</Link>);
+    }
+
     return (
       <nav>
         <p>Join as:</p>
-        {HousesModels(match.playersCount).map(house => <p><button onClick={event => selectHouse(match.id, house.name)}>{house.name}</button></p>)}
+        {HousesModels(match.playersCount).map(house => <p key={house.id}><button onClick={event => selectHouse(match.id, house.name)}>{house.name}</button></p>)}
       </nav>
     );
   }
 
   return (<button onClick={showHouses}>Join match {match.name} ({match.playersCount} players)</button>);
-  //return (<Link to={`/matches/${match.id}`}></Link>);
 });
 
 const Home = React.memo(({ game, currentUser, joinMatch }: HomeProps) => (
   <section>
     <nav>
       <Link to="/new-match">New Match</Link><br />
-      {game && game.matches.map(match => match && match.id && (
-        <div key={match.id}>
-          <JoinMatch match={match} joinMatchAction={joinMatch} currentUserId={currentUser.id} />
-        </div>
-      ))}
+      {game && game.matches.map(match => <JoinMatch match={match} joinMatchAction={joinMatch} currentUserId={currentUser.id} />)}
     </nav>
   </section>
 ));

@@ -1,5 +1,5 @@
 import * as types from "../actions/actionTypes";
-import * as houses from "../houses";
+import { Houses } from "../constants";
 
 export interface GameState {
   isLoading: boolean;
@@ -38,7 +38,7 @@ const initialState: GameState = {
       playersCount: 3,
       houses: [
         {
-          type: houses.BARATHEON,
+          type: Houses.BARATHEON,
           playerId: 2,
         }
       ],
@@ -77,19 +77,12 @@ export default (
       const otherMatches = state.matches.filter(m => m.id !== action.joinMatch.id);
       const currentMatch = state.matches.find(m => m.id === action.joinMatch.id);
 
-      console.log(action.joinMatch);
-      console.log(otherMatches);
-      console.log(currentMatch);
-
       if (!currentMatch) {
         return {
           ...state,
           isLoading: false,
-          matches: [],
         };
       }
-
-      console.log('kasjlkasjla')
 
       const currentHouses = currentMatch.houses;
       const updatedMatch = {

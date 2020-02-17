@@ -10,7 +10,7 @@ const newGameSuccessAction = (match: Match) => ({
   type: types.NEW_GAME_SUCCESS,
   isLoading: false,
   action: {
-    match,
+    newMatch: match,
   },
 });
 
