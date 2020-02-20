@@ -7,6 +7,8 @@ import { BrowserRouter } from "react-router-dom";
 
 import Router from "./components/Router";
 import store from "./store";
+import { Houses } from "./constants";
+
 import './App.scss';
 
 const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
@@ -21,7 +23,7 @@ const App: React.FC = () => {
     const channel = pusher.subscribe('game');
     channel.bind('update', action => {
       // Mock currenUser for now
-      const currentUser = "baratheon";
+      const currentUser = Houses.BARATHEON;
       //const currentUser = store.getState()["currentUser"]["houseName"];
 
       // Only dispatch if author is different

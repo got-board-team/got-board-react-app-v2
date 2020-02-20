@@ -9,7 +9,7 @@ const Router = React.memo(() => (
   <Switch>
     <Route exact path="/" render={(props) => <Home history={props.history} />} />
     <Route exact path="/new-match" render={() => <NewMatch />} />
-    <Route exact path="/matches/:id" render={() => <Game />} />
+    <Route exact path="/matches/:id" render={(props) => <Game {...props} />} />
   </Switch>
 ));
 

@@ -11,12 +11,16 @@
 }
 
 .ui {
-  &__actions-bar {
+  &__top-bar {
     background-color: rgba(0,0,0,.5);
     position: absolute;
     z-index: 1;
     width: 100vw;
     box-sizing: border-box;
+
+    .ui__top-text {
+      color: white;
+    }
   }
 
   &__panel {

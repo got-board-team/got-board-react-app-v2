@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux'
 
 import Map from "./Map";
 import Dropable from "./common/Dropable";
 import WarRoom from './WarRoom';
 import Combat from './Combat';
-import { Locations } from "../constants";
+import { Locations, Houses, capitalizeName } from "../constants";
+import { GameState } from "../reducers/game";
+import { CurrentUserState } from "../reducers/currentUser";
 
-const Game = React.memo(() => {
+const CurrentSelectedHouse = ({houseName}: {houseName: Houses}) => (<span className="ui__top-text">{capitalizeName(houseName)}</span>);
+
+interface MatchProps {
+  game: GameState;
+  currentUser: CurrentUserState;
+  match: any;
+}
+
+const Game = React.memo(({game, currentUser, match: { params: { id } } }: MatchProps) => {
   const [uiPanelsPositions, setUiPanelsPositions] = useState({
     "war-room": {x: 100, y: 80},
     "combat": {x: 700, y: 80},
   });
+
+  const currentMatch = game.matches.find(m => m.id === parseInt(id));
+  const currentPlayerHouse = currentMatch && currentMatch.houses.find(h => h.playerId === currentUser.id);
 
   const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -31,14 +45,19 @@ const Game = React.memo(() => {
 
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
-      <section className="ui__actions-bar">
+      <section className="ui__top-bar">
         <Link to="/"><button>Home</button></Link>
         <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
         <Combat x={combatPosition.x} y={combatPosition.y} />
+        {currentPlayerHouse && <CurrentSelectedHouse houseName={currentPlayerHouse.type} />}
       </section>
       <Map />
     </Dropable>
   );
 });
 
-export default Game;
+const mapStateToProps = (state: any) => ({
+  game: state.game,
+  currentUser: state.currentUser,
+});
+export default connect(mapStateToProps)(Game);

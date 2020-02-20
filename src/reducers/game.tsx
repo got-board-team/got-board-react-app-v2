@@ -1,18 +1,29 @@
 import * as types from "../actions/actionTypes";
-import * as houses from "../houses";
+import { Houses } from "../constants";
 
 export interface GameState {
   isLoading: boolean;
   matches: Match[];
 }
 
-interface House {
-  type: string;
+interface JoinMatchAttr {
+  id: number;
   playerId: number;
+  houseName: Houses;
+}
+
+interface GameAction {
+  newMatch: Match;
+  joinMatch: JoinMatchAttr;
+}
+
+export interface House {
+  type: Houses;
+  playerId: number | null;
 }
 
 export interface Match {
-  id: number | null;
+  id: number;
   name: string;
   playersCount: number;
   houses: House[];
@@ -27,7 +38,7 @@ const initialState: GameState = {
       playersCount: 3,
       houses: [
         {
-          type: houses.BARATHEON,
+          type: Houses.BARATHEON,
           playerId: 2,
         }
       ],
@@ -37,7 +48,7 @@ const initialState: GameState = {
 
 export default (
   state = initialState,
-  { type, match }: {type: string, match: Match}
+  { type, action }: {type: string, action: GameAction}
 ) => {
   switch (type) {
     case types.NEW_GAME:
@@ -48,8 +59,8 @@ export default (
     case types.NEW_GAME_SUCCESS:
       const newGame: Match = {
         id: state.matches.length + 1,
-        name: match.name,
-        playersCount: match.playersCount,
+        name: action.newMatch.name,
+        playersCount: action.newMatch.playersCount,
         houses: [],
       };
       const updatedGames = [
@@ -61,6 +72,34 @@ export default (
         ...state,
         isLoading: false,
         matches: updatedGames,
+      };
+    case types.JOIN_MATCH_SUCCESS:
+      const otherMatches = state.matches.filter(m => m.id !== action.joinMatch.id);
+      const currentMatch = state.matches.find(m => m.id === action.joinMatch.id);
+
+      if (!currentMatch) {
+        return {
+          ...state,
+          isLoading: false,
+        };
+      }
+
+      const currentHouses = currentMatch.houses;
+      const updatedMatch = {
+        ...currentMatch,
+        houses: [
+          ...currentHouses,
+          {
+            type: action.joinMatch.houseName,
+            playerId: action.joinMatch.playerId,
+          }
+        ]
+      }
+
+      return {
+        ...state,
+        isLoading: false,
+        matches: [...otherMatches, updatedMatch],
       };
     default:
       return state;
