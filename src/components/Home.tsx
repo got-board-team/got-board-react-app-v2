@@ -65,11 +65,16 @@ const JoinMatch = React.memo(({match, history, currentUserId, joinMatchAction}: 
     setSelectedHouse(!hasSelectedHouse);
   }, [hasSelectedHouse]);
 
+  const selectHouse = useCallback((matchId: number, houseType: Houses) => {
+    history.push(`/matches/${matchId}`);
+    joinMatchAction(matchId, houseType);
+  }, [ match ]);
+
   const hasJoinedMatch: boolean = !!(match.houses.find(house => house.playerId === currentUserId));
 
   if (hasJoinedMatch) {
-    history.push(`/matches/${match.id}`);
-    return (<p><Link to={`/matches/${match.id}`}>Return to match {match.name} ({match.playersCount} players)</Link></p>);
+    const currentPlayerHouseInMatch = match.houses.find(h => h.playerId === currentUserId);
+    return (<p><Link to={`/matches/${match.id}`}>Return to match {match.name} as {currentPlayerHouseInMatch && currentPlayerHouseInMatch.type} ({match.playersCount} players)</Link></p>);
   }
 
   if (hasSelectedHouse) {
@@ -78,7 +83,7 @@ const JoinMatch = React.memo(({match, history, currentUserId, joinMatchAction}: 
     return (
       <nav>
         <p>Join as:</p>
-        {joinableHouses.map(house => <p key={house.type}><button onClick={event => joinMatchAction(match.id, house.type)}>{house.type}</button></p>)}
+        {joinableHouses.map(house => <p key={house.type}><button onClick={event => selectHouse(match.id, house.type)}>{house.type}</button></p>)}
       </nav>
     );
   }
