@@ -1,9 +1,13 @@
 import Pusher from "pusher";
-import Express, { Request, Response } from "express";
-import BodyParser from "body-parser";
-import CORS from "cors";
+import { Request, Response } from "express";
+// import BodyParser from "body-parser";
+// import CORS from "cors";
 
-const app = Express();
+import jsonServer from "json-server"
+const server = jsonServer.create()
+const router = jsonServer.router('db.json')
+const middlewares = jsonServer.defaults()
+
 const pusherCredentials = {
   appId: process.env.API_ID || '',
   key: process.env.KEY || '',
@@ -13,24 +17,22 @@ const pusherCredentials = {
 };
 const pusher = new Pusher(pusherCredentials);
 
-app.use(CORS());
-app.use(BodyParser.urlencoded({extended: false}));
-app.use(BodyParser.json());
-app.set('PORT', process.env.PORT || 5000);
+server.use(middlewares)
 
-app.post('/message', (req: Request, res: Response) => {
+server.post('/matches/:id/join', (req: Request, res: Response) => {
+  console.log("POST HERE")
+  res.jsonp(req.query)
+})
+
+server.post('/message', (req: Request, res: Response) => {
   const payload = req.body;
   pusher.trigger('game', 'update', payload);
   res.send(payload)
 });
 
-function createGame(request: Request, response: Response) {
-  console.log(request.body);
-};
+server.use(router)
+server.use(jsonServer.bodyParser)
 
-app.post('/games', createGame);
-
-app.listen(
-  app.get('PORT'),
-  () => console.log('Listening at ' + app.get('PORT'))
-)
+server.listen(5000, () => {
+  console.log('JSON Server is running')
+})
