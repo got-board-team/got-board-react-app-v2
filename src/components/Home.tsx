@@ -6,6 +6,7 @@ import { GameState, Match, House } from "../reducers/game";
 import { CurrentUserState } from "../reducers/currentUser";
 import { joinMatch } from "../actions/joinMatch";
 import { Houses } from "../constants";
+import ListMatches from "./ListMatches";
 
 interface HomeProps {
   game: GameState;
@@ -95,7 +96,7 @@ const Home = React.memo(({ game, history, currentUser, joinMatch }: HomeProps) =
     <section>
       <nav>
         <Link to="/new-match">New Match</Link><br />
-        {game && game.matches.map(match => <JoinMatch match={match} joinMatchAction={joinMatchAction} currentUserId={currentUser.id} history={history} />)}
+        <ListMatches />
       </nav>
     </section>
   );
