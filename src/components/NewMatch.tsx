@@ -31,34 +31,36 @@ function NewMatch() {
   }
 
   return (
-    <section>
+    <>
       <MainNav />
-      <h1>New Match</h1>
-      <form>
-        {error && <p>{JSON.stringify(error)}</p>}
-        <fieldset>
-          <input
-            type="text"
-            name="game-name"
-            onChange={(e) => {
-              setNewMatch({
-                ...newMatch,
-                name: e.target.value,
-              })}
-            } /><br />
-          <select onChange={(e) => setNewMatch({
-            ...newMatch,
-            playersCount: parseInt(e.target.value),
-          })}>
-            <option value="3">3 Players</option>
-            <option value="4">4 Players</option>
-            <option value="5">5 Players</option>
-            <option value="6">6 Players</option>
-          </select><br />
-        </fieldset>
-        <input type="button" onClick={createNewMatch} value="Create Game" disabled={loading} />
-      </form>
-    </section>
+      <section className="page__content">
+        <h1>New Match</h1>
+        <form>
+          {error && <p>{JSON.stringify(error)}</p>}
+          <fieldset>
+            <input
+              type="text"
+              name="game-name"
+              onChange={(e) => {
+                setNewMatch({
+                  ...newMatch,
+                  name: e.target.value,
+                })}
+              } /><br />
+            <select onChange={(e) => setNewMatch({
+              ...newMatch,
+              playersCount: parseInt(e.target.value),
+            })}>
+              <option value="3">3 Players</option>
+              <option value="4">4 Players</option>
+              <option value="5">5 Players</option>
+              <option value="6">6 Players</option>
+            </select><br />
+          </fieldset>
+          <input type="button" onClick={createNewMatch} value="Create Game" disabled={loading} />
+        </form>
+      </section>
+    </>
   );
 };
 

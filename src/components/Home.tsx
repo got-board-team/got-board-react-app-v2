@@ -5,11 +5,13 @@ import MainNav from "./MainNav";
 
 function Home() {
   return (
-    <section>
+    <>
       <MainNav />
-      <h1>Existing matches</h1>
-      <ListMatches />
-    </section>
+      <section className="page__content">
+        <h1>Existing matches</h1>
+        <ListMatches />
+      </section>
+    </>
   );
 };
 

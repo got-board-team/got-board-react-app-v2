@@ -15,7 +15,7 @@ function ListMatches() {
   }, []);
 
   return (
-    <section className="list-matches">
+    <section>
       {loading && <p>Loading...</p>}
       {matches && matches.map(match => <div key={match.id}><Link to={`matches/${match.id}`}>{match.name}</Link></div>)}
     </section>
