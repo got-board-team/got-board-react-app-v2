@@ -7,6 +7,7 @@ import { CurrentUserState } from "../reducers/currentUser";
 import { joinMatch } from "../actions/joinMatch";
 import { Houses } from "../constants";
 import ListMatches from "./ListMatches";
+import MainNav from "./MainNav";
 
 interface HomeProps {
   game: GameState;
@@ -94,10 +95,9 @@ const Home = React.memo(({ game, history, currentUser, joinMatch }: HomeProps) =
 
   return (
     <section>
-      <nav>
-        <Link to="/new-match">New Match</Link><br />
-        <ListMatches />
-      </nav>
+      <MainNav />
+      <h1>Existing matches</h1>
+      <ListMatches />
     </section>
   );
 });

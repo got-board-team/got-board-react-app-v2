@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { createMatch } from "../actions/game";
 import { Match, GameState } from "../reducers/game";
+import MainNav from "./MainNav";
 
 const DEFAULT_GAME_PRESET: Match = {
   id: -1,
@@ -32,36 +33,31 @@ const NewMatch = React.memo(({ games, createMatch }: Props) => {
 
   return (
     <section>
-      <nav>
-        <Link to="/">Home</Link>
-      </nav>
-
-      <section>
-        <h1>New Match</h1>
-        <form>
-          <fieldset>
-            <input
-              type="text"
-              name="game-name"
-              onChange={(e) => {
-                setNewGame({
-                  ...newGame,
-                  name: e.target.value,
-                })}
-              } /><br />
-            <select onChange={(e) => setNewGame({
-              ...newGame,
-              playersCount: parseInt(e.target.value),
-            })}>
-              <option value="3">3 Players</option>
-              <option value="4">4 Players</option>
-              <option value="5">5 Players</option>
-              <option value="6">6 Players</option>
-            </select><br />
-          </fieldset>
-          <input type="button" onClick={createNewGame} value="Create Game" />
-        </form>
-      </section>
+      <MainNav />
+      <h1>New Match</h1>
+      <form>
+        <fieldset>
+          <input
+            type="text"
+            name="game-name"
+            onChange={(e) => {
+              setNewGame({
+                ...newGame,
+                name: e.target.value,
+              })}
+            } /><br />
+          <select onChange={(e) => setNewGame({
+            ...newGame,
+            playersCount: parseInt(e.target.value),
+          })}>
+            <option value="3">3 Players</option>
+            <option value="4">4 Players</option>
+            <option value="5">5 Players</option>
+            <option value="6">6 Players</option>
+          </select><br />
+        </fieldset>
+        <input type="button" onClick={createNewGame} value="Create Game" />
+      </form>
     </section>
   );
 });

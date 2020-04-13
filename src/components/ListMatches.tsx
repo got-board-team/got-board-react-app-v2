@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-//import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useGetMatches } from "../actions/matches";
-import { Match, MatchesState } from "../reducers/matches";
+import { Match } from "../reducers/matches";
 
 const selectMatches = (state: any) => state.matches.data;
 
@@ -17,7 +17,7 @@ function ListMatches() {
 
   return (
     <section className="list-matches">
-      {matches && matches.map(match => <div key={match.id}>{match.name}</div>)}
+      {matches && matches.map(match => <Link key={match.id} to={`matches/${match.id}`}>{match.name}</Link>)}
     </section>
   );
 }

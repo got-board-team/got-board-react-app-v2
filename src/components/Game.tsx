@@ -46,7 +46,7 @@ const Game = React.memo(({game, currentUser, match: { params: { id } } }: MatchP
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
       <section className="ui__top-bar">
-        <Link to="/"><button>Home</button></Link>
+        <Link to="/">Home</Link>
         <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
         <Combat x={combatPosition.x} y={combatPosition.y} />
         {currentPlayerHouse && <CurrentSelectedHouse houseName={currentPlayerHouse.type} />}
