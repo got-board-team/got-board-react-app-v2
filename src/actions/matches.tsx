@@ -5,6 +5,8 @@ import { useRequest, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
 import { Match } from "../reducers/game";
 
+type MatchHook = [() => void, {loading: boolean, error: string | null}];
+
 // TODO: Move to endpoints file + API URL to env var
 const allMatchesEndpoint = "http://localhost:8000/matches";
 
@@ -22,7 +24,7 @@ const getMatchesError = (error: string) => ({
   error,
 });
 
-function useGetMatches(): [() => void, {loading: boolean, error: string | null}] {
+function useGetMatches(): MatchHook {
   const dispatch = useDispatch();
 
   //@ts-ignore
@@ -52,4 +54,48 @@ function useGetMatches(): [() => void, {loading: boolean, error: string | null}]
   return [request, { loading, error }];
 }
 
-export { useGetMatches };
+const createMatch = () => ({
+  type: types.CREATE_MATCH,
+});
+
+const createMatchSuccess = (match: Match) => ({
+  type: types.CREATE_MATCH_SUCCESS,
+  match,
+});
+
+const createMatchError = (error: string) => ({
+  type: types.CREATE_MATCH_ERROR,
+  error,
+});
+
+function useCreateMatch(matchName: string, playersCount: number): MatchHook {
+  const dispatch = useDispatch();
+
+  //@ts-ignore
+  const [request, { data, loading, error }]: [() => void, UseRequestState] = useRequest(
+    allMatchesEndpoint,
+    "POST",
+    { "name": matchName, "players_count": playersCount}
+  );
+
+  useEffect(
+    function persistNewMatchesToState() {
+      if (error) {
+        dispatch(createMatchError(error));
+        return;
+      }
+
+      if (data) {
+        dispatch(createMatchSuccess(data));
+        return;
+      }
+
+      dispatch(createMatch());
+    },
+    [data, error, dispatch]
+  );
+
+  return [request, { loading, error }];
+}
+
+export { useGetMatches, useCreateMatch };
