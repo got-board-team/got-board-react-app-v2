@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 
 import { useGetMatches } from "../actions/matches";
 import { Match } from "../reducers/matches";
-
-const selectMatches = (state: any) => state.matches.data;
+import { selectMatches } from "../selectors";
 
 function ListMatches() {
   const matches: Match[] = useSelector(selectMatches);
@@ -17,7 +16,8 @@ function ListMatches() {
 
   return (
     <section className="list-matches">
-      {matches && matches.map(match => <Link key={match.id} to={`matches/${match.id}`}>{match.name}</Link>)}
+      {loading && <p>Loading...</p>}
+      {matches && matches.map(match => <div key={match.id}><Link to={`matches/${match.id}`}>{match.name}</Link></div>)}
     </section>
   );
 }

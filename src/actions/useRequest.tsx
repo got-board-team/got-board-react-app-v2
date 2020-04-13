@@ -22,7 +22,17 @@ export function useRequest(url: string, method: string, config: any) {
         loading: true,
       }));
 
-      const response: Response = await fetch(url, { ...config, method, body: data });
+      const response: Response = await fetch(
+        url,
+        {
+          ...config,
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method,
+          body: data && JSON.stringify(data)
+        }
+      );
       const responseData = await response.json();
 
       setResponse(prevState => ({
@@ -36,9 +46,6 @@ export function useRequest(url: string, method: string, config: any) {
         error: err,
         loading: false,
       }));
-    } finally {
-      console.log("Finally");
-      //setResponse(initialState);
     }
   }
 

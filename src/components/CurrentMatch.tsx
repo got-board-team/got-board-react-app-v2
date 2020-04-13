@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import Map from "./Map";
 import Dropable from "./common/Dropable";
 import WarRoom from './WarRoom';
 import Combat from './Combat';
 import { Locations, Houses, capitalizeName } from "../constants";
-import { GameState } from "../reducers/game";
-import { CurrentUserState } from "../reducers/currentUser";
+import { Match } from "../reducers/matches";
+import { User } from "../reducers/currentUser";
+import { selectMatches, selectCurrentUser } from "../selectors";
+import { House } from "../models";
 
 const CurrentSelectedHouse = ({houseName}: {houseName: Houses}) => (<span className="ui__top-text">{capitalizeName(houseName)}</span>);
 
-interface MatchProps {
-  game: GameState;
-  currentUser: CurrentUserState;
-  match: any;
-}
+const MockedCurrentUserHouse = {
+  type: Houses.STARK,
+  playerId: 1,
+};
 
-const Game = React.memo(({game, currentUser, match: { params: { id } } }: MatchProps) => {
+function CurrentMatch({ match: { params: { id } } }: { match: any }) {
   const [uiPanelsPositions, setUiPanelsPositions] = useState({
     "war-room": {x: 100, y: 80},
     "combat": {x: 700, y: 80},
   });
 
-  const currentMatch = game.matches.find(m => m.id === parseInt(id));
-  const currentPlayerHouse = currentMatch && currentMatch.houses.find(h => h.playerId === currentUser.id);
+  const matches: Match[] = useSelector(selectMatches);
+  const currentMatch = matches.find(m => m.id === parseInt(id));
+  const currentUser: User = useSelector(selectCurrentUser);
+  const currentPlayerHouse: House = MockedCurrentUserHouse//currentMatch && currentMatch.houses.find(h => h.playerId === currentUser.id);
 
   const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -54,10 +57,6 @@ const Game = React.memo(({game, currentUser, match: { params: { id } } }: MatchP
       <Map />
     </Dropable>
   );
-});
+};
 
-const mapStateToProps = (state: any) => ({
-  game: state.game,
-  currentUser: state.currentUser,
-});
-export default connect(mapStateToProps)(Game);
+export default React.memo(CurrentMatch);

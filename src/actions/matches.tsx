@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { useRequest, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
-import { Match } from "../reducers/game";
+import { Match } from "../reducers/matches";
 
 type MatchHook = [() => void, {loading: boolean, error: string | null}];
 
@@ -30,8 +30,7 @@ function useGetMatches(): MatchHook {
   //@ts-ignore
   const [request, { data, loading, error }]: [() => void, UseRequestState] = useRequest(
     allMatchesEndpoint,
-    "GET",
-    null
+    "GET"
   );
 
   useEffect(
@@ -72,11 +71,14 @@ function useCreateMatch(matchName: string, playersCount: number): MatchHook {
   const dispatch = useDispatch();
 
   //@ts-ignore
-  const [request, { data, loading, error }]: [() => void, UseRequestState] = useRequest(
+  const [request, { data, loading, error }]: [(data: any) => void, UseRequestState] = useRequest(
     allMatchesEndpoint,
-    "POST",
-    { "name": matchName, "players_count": playersCount}
+    "POST"
   );
+
+  function createMatchRequest() {
+    request({ "name": matchName, "players_count": playersCount });
+  }
 
   useEffect(
     function persistNewMatchesToState() {
@@ -95,7 +97,7 @@ function useCreateMatch(matchName: string, playersCount: number): MatchHook {
     [data, error, dispatch]
   );
 
-  return [request, { loading, error }];
+  return [createMatchRequest, { loading, error }];
 }
 
 export { useGetMatches, useCreateMatch };

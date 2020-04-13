@@ -1,33 +1,32 @@
 import React, { useState, useCallback } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from 'react-redux'
+import { Redirect } from "react-router-dom";
 
-import { createMatch } from "../actions/game";
-import { Match, GameState } from "../reducers/game";
+import { Match } from "../reducers/matches";
+import { useCreateMatch } from "../actions/matches";
 import MainNav from "./MainNav";
 
 const DEFAULT_GAME_PRESET: Match = {
   id: -1,
   name: "",
   playersCount: 3,
-  houses: [],
+  createdAt: "",
+  updatedAt: "",
 };
 
-interface Props {
-  games: GameState;
-  createMatch: (match: Match) => void;
-}
+function NewMatch() {
+  const [newMatch, setNewMatch] = useState(DEFAULT_GAME_PRESET);
+  const [matchCreated, setMatchCreated] = useState(false);
+  const [createMatchRequest, {loading, error}] = useCreateMatch(newMatch.name, newMatch.playersCount);
 
-const NewMatch = React.memo(({ games, createMatch }: Props) => {
-  const [newGame, setNewGame] = useState(DEFAULT_GAME_PRESET);
-  const [gameCreated, setGameCreate] = useState(false);
+  const createNewMatch = useCallback(() => {
+    createMatchRequest();
+    // TODO: If error it's not stoping here. Concurrency issue.
+    if (!loading && !error) {
+      setMatchCreated(true);
+    }
+  }, [createMatchRequest, error, loading]);
 
-  const createNewGame = useCallback(() => {
-    createMatch(newGame);
-    setGameCreate(true);
-  }, [newGame, createMatch]);
-
-  if (gameCreated) {
+  if (matchCreated) {
     return <Redirect to="/" />;
   }
 
@@ -36,18 +35,19 @@ const NewMatch = React.memo(({ games, createMatch }: Props) => {
       <MainNav />
       <h1>New Match</h1>
       <form>
+        {error && <p>{JSON.stringify(error)}</p>}
         <fieldset>
           <input
             type="text"
             name="game-name"
             onChange={(e) => {
-              setNewGame({
-                ...newGame,
+              setNewMatch({
+                ...newMatch,
                 name: e.target.value,
               })}
             } /><br />
-          <select onChange={(e) => setNewGame({
-            ...newGame,
+          <select onChange={(e) => setNewMatch({
+            ...newMatch,
             playersCount: parseInt(e.target.value),
           })}>
             <option value="3">3 Players</option>
@@ -56,18 +56,10 @@ const NewMatch = React.memo(({ games, createMatch }: Props) => {
             <option value="6">6 Players</option>
           </select><br />
         </fieldset>
-        <input type="button" onClick={createNewGame} value="Create Game" />
+        <input type="button" onClick={createNewMatch} value="Create Game" disabled={loading} />
       </form>
     </section>
   );
-});
-
-const mapStateToProps = (state: any) => ({
-  games: state.games,
-});
-
-const mapDispatchToProps = {
-  createMatch,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewMatch);
+export default React.memo(NewMatch);
