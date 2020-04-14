@@ -43,7 +43,7 @@ export function useRequest(url: string, method: string, config: any) {
     } catch (err) {
       setResponse(prevState => ({
         ...prevState,
-        error: err,
+        error: err.message,
         loading: false,
       }));
     }
