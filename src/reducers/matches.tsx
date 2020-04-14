@@ -10,6 +10,7 @@ export interface Match {
 
 export interface MatchesState {
   isLoading: boolean;
+  createdMatch: Match | null;
   data: Match[];
 }
 
@@ -22,6 +23,7 @@ interface Payload {
 
 const initialState: MatchesState = {
   isLoading: false,
+  createdMatch: null,
   data: [],
 };
 
@@ -51,11 +53,13 @@ export default (
       return {
         ...state,
         isLoading: true,
+        createdMatch: null,
       };
     case types.CREATE_MATCH_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        createdMatch: match,
         data: [...state.data, match],
       };
     case types.CREATE_MATCH_ERROR:
