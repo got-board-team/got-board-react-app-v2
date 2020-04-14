@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from "react";
 import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { Match } from "../reducers/matches";
 import { useCreateMatch } from "../actions/matches";
+import { selectCreatedMatch } from "../selectors";
 import MainNav from "./MainNav";
 
 const DEFAULT_GAME_PRESET: Match = {
@@ -15,19 +17,15 @@ const DEFAULT_GAME_PRESET: Match = {
 
 function NewMatch() {
   const [newMatch, setNewMatch] = useState(DEFAULT_GAME_PRESET);
-  const [matchCreated, setMatchCreated] = useState(false);
   const [createMatchRequest, {loading, error}] = useCreateMatch(newMatch.name, newMatch.playersCount);
+  const createdMatch: Match = useSelector(selectCreatedMatch);
 
   const createNewMatch = useCallback(() => {
     createMatchRequest();
-    // TODO: If error it's not stoping here. Concurrency issue.
-    if (!loading && !error) {
-      setMatchCreated(true);
-    }
   }, [createMatchRequest, error, loading]);
 
-  if (matchCreated) {
-    return <Redirect to="/" />;
+  if (createdMatch) {
+    return <Redirect to={`matches/${createdMatch.id}`} />;
   }
 
   return (
@@ -36,7 +34,7 @@ function NewMatch() {
       <section className="page__content">
         <h1>New Match</h1>
         <form>
-          {error && <p>{JSON.stringify(error)}</p>}
+          {error && <p>{error}</p>}
           <fieldset>
             <input
               type="text"
