@@ -4,17 +4,18 @@ import { useSelector } from 'react-redux'
 import Map from "./Map";
 import Dropable from "./common/Dropable";
 import MatchTopNavigation from "./MatchTopNavigation";
-import { Locations, Houses } from "../constants";
-import { User } from "../reducers/currentUser";
+import JoinMatch from "./JoinMatch";
+import { Locations } from "../constants";
 import { selectCurrentMatch, selectCurrentUser } from "../selectors";
 import { useGetMatch } from "../actions/matches";
 import { CurrentMatchState } from "../reducers/currentMatch";
+import { CurrentUserState } from "../reducers/currentUser";
 
 function CurrentMatch({ match: { params: { id } } }: { match: any }) {
   const [request, {loading, error}] = useGetMatch(parseInt(id));
   const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
-  const currentUser: User = useSelector(selectCurrentUser);
-  const currentPlayerHouse = Houses.STARK; // Mocked for now
+  const currentUser: CurrentUserState = useSelector(selectCurrentUser);
+  const currentPlayer = currentMatch.players.find(player => currentUser.attributes && currentUser.attributes.id === player.id);
 
   const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -46,13 +47,10 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
     return (<p>Loading...</p>);
   }
 
-  if (currentMatch.players.length === 0) {
-    console.log("No players");
-  }
-
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
-      <MatchTopNavigation warRoomPosition={warRoomPosition} combatPosition={combatPosition} currentPlayerHouse={currentPlayerHouse} />
+      {!currentPlayer && <JoinMatch currentMatch={currentMatch} currentUser={currentUser} />}
+      {currentPlayer && <MatchTopNavigation warRoomPosition={warRoomPosition} combatPosition={combatPosition} currentPlayerHouse={currentPlayer.house} />}
       {error && <p>{error}</p>}
       <Map />
     </Dropable>

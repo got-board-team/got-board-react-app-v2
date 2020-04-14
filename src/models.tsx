@@ -3,9 +3,9 @@ import { Houses } from "./constants";
 export interface Match {
   id: number;
   name: string;
-  playersCount: number;
-  createdAt: string;
-  updatedAt: string;
+  players_count: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Player {

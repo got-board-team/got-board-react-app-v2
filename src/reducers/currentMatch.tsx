@@ -1,5 +1,6 @@
 import * as types from "../actions/actionTypes";
 import { Match, Player } from "../models";
+import { Houses } from "../constants";
 
 export interface CurrentMatchState {
   isLoading: boolean;
@@ -18,7 +19,13 @@ interface Payload {
 const initialState: CurrentMatchState = {
   isLoading: false,
   attributes: null,
-  players: [],
+  // TODO: Remove mock.
+  players: [
+    {
+      id: 2,
+      house: Houses.STARK,
+    }
+  ],
   error: null,
 };
 

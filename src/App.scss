@@ -26,6 +26,13 @@
   &__panel {
     background-color: rgba(0,0,0,.5);
     padding: 10px;
+    color: #ccc;
+
+    &--centralized {
+      position: absolute;
+      width: 50vw;
+      margin: 50vh 25vw;
+    }
   }
 
   &__action {
