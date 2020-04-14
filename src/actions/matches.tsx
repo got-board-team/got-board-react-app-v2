@@ -3,12 +3,14 @@ import { useDispatch } from "react-redux";
 
 import { useRequest, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
-import { Match } from "../reducers/matches";
+import { Match } from "../models";
 
 type MatchHook = [() => void, {loading: boolean, error: string | null}];
 
 // TODO: Move to endpoints file + API URL to env var
-const allMatchesEndpoint = "http://localhost:8000/matches";
+const BASE_API_URL = "http://localhost:8000";
+const allMatchesEndpoint = `${BASE_API_URL}/matches`;
+const matchEndpoint = (matchId: number) => `${BASE_API_URL}/matches/${matchId}`;
 
 const getMatches = () => ({
   type: types.GET_MATCHES,
@@ -46,6 +48,49 @@ function useGetMatches(): MatchHook {
       }
 
       dispatch(getMatches());
+    },
+    [data, error, dispatch]
+  );
+
+  return [request, { loading, error }];
+}
+
+const getMatch = () => ({
+  type: types.GET_MATCH,
+});
+
+const getMatchSuccess = (attributes: Match) => ({
+  type: types.GET_MATCH_SUCCESS,
+  attributes,
+});
+
+const getMatchError = (error: string) => ({
+  type: types.GET_MATCH_ERROR,
+  error,
+});
+
+function useGetMatch(matchId: number): MatchHook {
+  const dispatch = useDispatch();
+
+  //@ts-ignore
+  const [request, { data, loading, error }]: [() => void, UseRequestState] = useRequest(
+    matchEndpoint(matchId),
+    "GET"
+  );
+
+  useEffect(
+    function persistMatches() {
+      if (error) {
+        dispatch(getMatchError(error));
+        return;
+      }
+
+      if (data) {
+        dispatch(getMatchSuccess(data));
+        return;
+      }
+
+      dispatch(getMatch());
     },
     [data, error, dispatch]
   );
@@ -100,4 +145,4 @@ function useCreateMatch(matchName: string, playersCount: number): MatchHook {
   return [createMatchRequest, { loading, error }];
 }
 
-export { useGetMatches, useCreateMatch };
+export { useGetMatches, useGetMatch, useCreateMatch };

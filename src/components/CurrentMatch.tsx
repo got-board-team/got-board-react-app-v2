@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 
@@ -7,10 +7,11 @@ import Dropable from "./common/Dropable";
 import WarRoom from './WarRoom';
 import Combat from './Combat';
 import { Locations, Houses, capitalizeName } from "../constants";
-import { Match } from "../reducers/matches";
+import { Match } from "../models";
 import { User } from "../reducers/currentUser";
-import { selectMatches, selectCurrentUser } from "../selectors";
+import { selectCurrentMatch, selectCurrentUser } from "../selectors";
 import { House } from "../models";
+import { useGetMatch } from "../actions/matches";
 
 const CurrentSelectedHouse = ({houseName}: {houseName: Houses}) => (<span className="ui__top-text">{capitalizeName(houseName)}</span>);
 
@@ -25,10 +26,10 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
     "combat": {x: 700, y: 80},
   });
 
-  const matches: Match[] = useSelector(selectMatches);
-  const currentMatch = matches.find(m => m.id === parseInt(id));
+  const [request, {loading, error}] = useGetMatch(parseInt(id));
+  const currentMatch: Match = useSelector(selectCurrentMatch);
   const currentUser: User = useSelector(selectCurrentUser);
-  const currentPlayerHouse: House = MockedCurrentUserHouse//currentMatch && currentMatch.houses.find(h => h.playerId === currentUser.id);
+  const currentPlayerHouse: House = MockedCurrentUserHouse;
 
   const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -45,6 +46,11 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
 
   const warRoomPosition = uiPanelsPositions["war-room"];
   const combatPosition = uiPanelsPositions["combat"];
+
+  useEffect(function getCurrentMatch() {
+    request();
+  },
+  []);
 
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">

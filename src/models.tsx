@@ -1,5 +1,18 @@
 import { Houses } from "./constants";
 
+export interface Match {
+  id: number;
+  name: string;
+  playersCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Player {
+  id: number;
+  house: House;
+}
+
 export interface House {
   type: Houses;
   playerId: number | null;

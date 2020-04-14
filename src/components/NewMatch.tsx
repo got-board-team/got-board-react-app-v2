@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { Match } from "../reducers/matches";
+import { Match } from "../models";
 import { useCreateMatch } from "../actions/matches";
 import { selectCreatedMatch } from "../selectors";
 import MainNav from "./MainNav";
