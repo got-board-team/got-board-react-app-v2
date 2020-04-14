@@ -10,7 +10,7 @@ export interface Match {
 
 export interface Player {
   id: number;
-  house: House;
+  house: Houses;
 }
 
 export interface House {

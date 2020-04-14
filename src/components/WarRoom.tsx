@@ -5,20 +5,18 @@ import Piece from './Piece';
 import Draggable from './common/Draggable';
 import Dropable from "./common/Dropable";
 import { Drop } from "../reducers/drop";
-import { AllPieceKinds } from "../constants";
+import { AllPieceKinds, Houses } from "../constants";
 
 import "./WarRoom.scss";
 
 interface WarRoomProps {
-  drops: Array<Drop>;
+  drops: Drop[];
   x: number;
   y: number;
+  currentPlayerHouse: Houses
 }
 
-// TODO: To be implemented
-const currentPlayerHouse = "baratheon";
-
-const WarRoom = React.memo(({x, y, drops}: WarRoomProps) => {
+const WarRoom = React.memo(({x, y, drops, currentPlayerHouse}: WarRoomProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggle = () => setIsVisible(!isVisible);
 

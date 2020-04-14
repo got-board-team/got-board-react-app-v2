@@ -3,24 +3,38 @@ import { Houses } from "../constants";
 
 export interface CurrentUserState {
   isLoading: boolean;
-  id: number;
-  houseName: string;
+  attributes: User | null;
 }
 
 export interface User {
   id: number;
-  houseName: string;
+  email: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
 }
+
+interface Payload {
+  type: string
+  attributes: User
+}
+
+const mockedCurrentUser = {
+  id: 1,
+  email: "rafael@got.local",
+  name: "Rafael",
+  createdAt: "2020-04-08T21:02:57.498519",
+  updatedAt: "2020-04-08T21:02:57.498519"
+};
 
 const initialState: CurrentUserState = {
   isLoading: false,
-  id: 1,
-  houseName: Houses.BARATHEON,
+  attributes: mockedCurrentUser,
 };
 
 export default (
   state = initialState,
-  { type, user }: {type: string, user: User}
+  { type, attributes }: Payload
 ) => {
   switch (type) {
     case types.GET_USER:
@@ -32,7 +46,7 @@ export default (
       return {
         ...state,
         isLoading: false,
-        ...user,
+        attributes,
       };
     default:
       return state;

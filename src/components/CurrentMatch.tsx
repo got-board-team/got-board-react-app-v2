@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 
 import Map from "./Map";
 import Dropable from "./common/Dropable";
-import WarRoom from './WarRoom';
-import Combat from './Combat';
-import { Locations, Houses, capitalizeName } from "../constants";
-import { Match } from "../models";
+import MatchTopNavigation from "./MatchTopNavigation";
+import { Locations, Houses } from "../constants";
 import { User } from "../reducers/currentUser";
 import { selectCurrentMatch, selectCurrentUser } from "../selectors";
-import { House } from "../models";
 import { useGetMatch } from "../actions/matches";
-
-const CurrentSelectedHouse = ({houseName}: {houseName: Houses}) => (<span className="ui__top-text">{capitalizeName(houseName)}</span>);
-
-const MockedCurrentUserHouse = {
-  type: Houses.STARK,
-  playerId: 1,
-};
+import { CurrentMatchState } from "../reducers/currentMatch";
 
 function CurrentMatch({ match: { params: { id } } }: { match: any }) {
-  const [uiPanelsPositions, setUiPanelsPositions] = useState({
-    "war-room": {x: 100, y: 80},
-    "combat": {x: 700, y: 80},
-  });
-
   const [request, {loading, error}] = useGetMatch(parseInt(id));
-  const currentMatch: Match = useSelector(selectCurrentMatch);
+  const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
   const currentUser: User = useSelector(selectCurrentUser);
-  const currentPlayerHouse: House = MockedCurrentUserHouse;
+  const currentPlayerHouse = Houses.STARK; // Mocked for now
 
   const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -44,6 +29,11 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
     }
   }
 
+  const [uiPanelsPositions, setUiPanelsPositions] = useState({
+    "war-room": {x: 100, y: 80},
+    "combat": {x: 700, y: 80},
+  });
+
   const warRoomPosition = uiPanelsPositions["war-room"];
   const combatPosition = uiPanelsPositions["combat"];
 
@@ -52,14 +42,18 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
   },
   []);
 
+  if (loading) {
+    return (<p>Loading...</p>);
+  }
+
+  if (currentMatch.players.length === 0) {
+    console.log("No players");
+  }
+
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
-      <section className="ui__top-bar">
-        <Link to="/">Home</Link>
-        <WarRoom x={warRoomPosition.x} y={warRoomPosition.y} />
-        <Combat x={combatPosition.x} y={combatPosition.y} />
-        {currentPlayerHouse && <CurrentSelectedHouse houseName={currentPlayerHouse.type} />}
-      </section>
+      <MatchTopNavigation warRoomPosition={warRoomPosition} combatPosition={combatPosition} currentPlayerHouse={currentPlayerHouse} />
+      {error && <p>{error}</p>}
       <Map />
     </Dropable>
   );

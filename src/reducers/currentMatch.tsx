@@ -1,7 +1,7 @@
 import * as types from "../actions/actionTypes";
 import { Match, Player } from "../models";
 
-interface CurrentMatchState {
+export interface CurrentMatchState {
   isLoading: boolean;
   attributes: Match | null;
   players: Player[];
