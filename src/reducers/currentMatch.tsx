@@ -1,45 +1,36 @@
 import * as types from "../actions/actionTypes";
-import { Match, Player, JoinedPlayerAPIResponse } from "../models";
+import { Match, Player, PlayerAPIResponse } from "../models";
 import { Houses } from "../constants";
 
 export interface CurrentMatchState {
   isLoading: boolean;
-  attributes: Match | null;
-  players: Player[];
   error: string | null;
+  id?: number;
+  name?: string;
+  players?: Player[];
+  players_count?: number;
 }
 
 interface Payload {
   type: string;
-  attributes: Match;
-  newPlayer: JoinedPlayerAPIResponse;
+  id: number;
+  name: string;
+  players_count: number;
+  created_at: string;
+  updated_at: string;
+  players: PlayerAPIResponse[];
+  newPlayer: PlayerAPIResponse;
   error: string | null;
 }
 
 const initialState: CurrentMatchState = {
   isLoading: false,
-  attributes: null,
-  // TODO: Remove mock.
-  players: [
-    {
-      id: 2,
-      house: Houses.STARK,
-    },
-    {
-      id: null,
-      house: Houses.BARATHEON,
-    },
-    {
-      id: null,
-      house: Houses.LANNISTER,
-    },
-  ],
   error: null,
 };
 
 export default (
   state = initialState,
-  { type, attributes, error, newPlayer }: Payload
+  { type, id, name, players_count, players, created_at, updated_at, error, newPlayer }: Payload
 ) => {
   switch (type) {
     case types.GET_MATCH:
@@ -48,10 +39,22 @@ export default (
         isLoading: true,
       };
     case types.GET_MATCH_SUCCESS:
+      const p = players.map(player => (
+        {
+          id: player.user_id,
+          house: player.house_name as Houses
+        }
+      ));
+
       return {
         ...state,
         isLoading: false,
-        attributes,
+        id,
+        name,
+        players_count,
+        created_at,
+        updated_at,
+        players: p
       };
     case types.GET_MATCH_ERROR:
       return {
@@ -60,7 +63,7 @@ export default (
         error,
       };
     case types.JOIN_MATCH_SUCCESS:
-      const currentPlayers = state.players.filter(player => player.house !== newPlayer.house_name);
+      const currentPlayers = state.players ? state.players.filter(player => player.house !== newPlayer.house_name) : [];
 
       return {
         ...state,

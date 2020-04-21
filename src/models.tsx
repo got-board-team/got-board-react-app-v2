@@ -6,6 +6,7 @@ export interface Match {
   players_count: number;
   created_at: string;
   updated_at: string;
+  players: Player[];
 }
 
 export interface Player {
@@ -13,7 +14,7 @@ export interface Player {
   house: Houses;
 }
 
-export interface JoinedPlayerAPIResponse {
+export interface PlayerAPIResponse {
   created_at: string;
   house_name: string;
   id: number;

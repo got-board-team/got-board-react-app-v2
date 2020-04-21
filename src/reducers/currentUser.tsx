@@ -2,7 +2,11 @@ import * as types from "../actions/actionTypes";
 
 export interface CurrentUserState {
   isLoading: boolean;
-  attributes: User | null;
+  id?: number;
+  email?: string;
+  name?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface User {
@@ -28,7 +32,7 @@ const mockedCurrentUser = {
 
 const initialState: CurrentUserState = {
   isLoading: false,
-  attributes: mockedCurrentUser,
+  ...mockedCurrentUser,
 };
 
 export default (

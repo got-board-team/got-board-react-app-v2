@@ -15,7 +15,7 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
   const [request, {loading, error}] = useGetMatch(parseInt(id));
   const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
   const currentUser: CurrentUserState = useSelector(selectCurrentUser);
-  const currentPlayer = currentMatch.players.find(player => currentUser.attributes && currentUser.attributes.id === player.id);
+  const currentPlayer = currentMatch.players && currentMatch.players.find(player => currentUser.id === player.id);
 
   const updateUiPanelPosition = (item: any, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
@@ -49,12 +49,10 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
 
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
-      {(!currentPlayer &&
-        currentMatch && currentMatch.attributes &&
-        currentUser && currentUser.attributes) &&
+      {(!currentPlayer && currentMatch.id && currentUser.id && currentMatch.players) &&
        <JoinMatch
-         currentMatchId={currentMatch.attributes.id}
-         currentUserId={currentUser.attributes.id}
+         currentMatchId={currentMatch.id}
+         currentUserId={currentUser.id}
          players={currentMatch.players}
        />}
       {currentPlayer && <MatchTopNavigation warRoomPosition={warRoomPosition} combatPosition={combatPosition} currentPlayerHouse={currentPlayer.house} />}

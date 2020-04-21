@@ -13,6 +13,7 @@ const DEFAULT_GAME_PRESET: Match = {
   players_count: 3,
   created_at: "",
   updated_at: "",
+  players: [],
 };
 
 function NewMatch() {

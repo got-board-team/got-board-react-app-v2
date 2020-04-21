@@ -60,9 +60,9 @@ const getMatch = () => ({
   type: types.GET_MATCH,
 });
 
-const getMatchSuccess = (attributes: Match) => ({
+const getMatchSuccess = (match: Match) => ({
   type: types.GET_MATCH_SUCCESS,
-  attributes,
+  ...match,
 });
 
 const getMatchError = (error: string) => ({
