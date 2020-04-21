@@ -49,7 +49,14 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
 
   return (
     <Dropable accept={[Locations.WAR_ROOM, Locations.COMBAT]} dropAction={updateUiPanelPosition} dropLocation="game">
-      {!currentPlayer && <JoinMatch currentMatch={currentMatch} currentUser={currentUser} />}
+      {(!currentPlayer &&
+        currentMatch && currentMatch.attributes &&
+        currentUser && currentUser.attributes) &&
+       <JoinMatch
+         currentMatchId={currentMatch.attributes.id}
+         currentUserId={currentUser.attributes.id}
+         players={currentMatch.players}
+       />}
       {currentPlayer && <MatchTopNavigation warRoomPosition={warRoomPosition} combatPosition={combatPosition} currentPlayerHouse={currentPlayer.house} />}
       {error && <p>{error}</p>}
       <Map />

@@ -1,28 +1,27 @@
 import React from 'react';
 
-import { CurrentMatchState } from "../reducers/currentMatch";
-import { CurrentUserState } from "../reducers/currentUser";
+import { Player } from "../models";
+import { useJoinMatch } from "../actions/matches";
 
 interface Props {
-  currentMatch: CurrentMatchState;
-  currentUser: CurrentUserState;
+  currentMatchId: number;
+  currentUserId: number;
+  players: Player[];
 }
 
-function JoinMatch({currentMatch, currentUser}: Props) {
-  if (!(currentMatch && currentMatch.attributes)) {
-    return (
-      <p>Loading</p>
-    );
-  }
-
-  // TODO: Get all this information and build the screen
-  // Create the hook to post to join endpoint
-  console.log(currentMatch);
-  console.log(currentUser.attributes);
+function JoinMatch({currentMatchId, currentUserId, players}: Props) {
+  const [joinMatchRequest, { loading }] = useJoinMatch(currentMatchId, currentUserId);
 
   return (
     <section className="ui__panel ui__panel--centralized">
       <h3>Select one of the available houses</h3>
+      <nav>
+        {players.map(player => (
+          <div key={player.house}>
+            <button disabled={loading || !!player.id} onClick={() => joinMatchRequest(player.house)}>{loading ? "Joining..." : player.house}</button>
+          </div>
+        ))}
+      </nav>
     </section>
   );
 }

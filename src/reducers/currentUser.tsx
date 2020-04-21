@@ -1,5 +1,4 @@
 import * as types from "../actions/actionTypes";
-import { Houses } from "../constants";
 
 export interface CurrentUserState {
   isLoading: boolean;

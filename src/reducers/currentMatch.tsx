@@ -1,5 +1,5 @@
 import * as types from "../actions/actionTypes";
-import { Match, Player } from "../models";
+import { Match, Player, JoinedPlayerAPIResponse } from "../models";
 import { Houses } from "../constants";
 
 export interface CurrentMatchState {
@@ -12,7 +12,7 @@ export interface CurrentMatchState {
 interface Payload {
   type: string;
   attributes: Match;
-  players: Player[];
+  newPlayer: JoinedPlayerAPIResponse;
   error: string | null;
 }
 
@@ -24,14 +24,22 @@ const initialState: CurrentMatchState = {
     {
       id: 2,
       house: Houses.STARK,
-    }
+    },
+    {
+      id: null,
+      house: Houses.BARATHEON,
+    },
+    {
+      id: null,
+      house: Houses.LANNISTER,
+    },
   ],
   error: null,
 };
 
 export default (
   state = initialState,
-  { type, attributes, error }: Payload
+  { type, attributes, error, newPlayer }: Payload
 ) => {
   switch (type) {
     case types.GET_MATCH:
@@ -51,6 +59,24 @@ export default (
         isLoading: false,
         error,
       };
+    case types.JOIN_MATCH_SUCCESS:
+      const currentPlayers = state.players.filter(player => player.house !== newPlayer.house_name);
+
+      return {
+        ...state,
+        players: [
+          ...currentPlayers,
+          {
+            id: newPlayer.user_id,
+            house: newPlayer.house_name as Houses
+          }
+        ],
+      }
+    case types.JOIN_MATCH_ERROR:
+      return {
+        ...state,
+        error,
+      }
     default:
       return state;
   }
