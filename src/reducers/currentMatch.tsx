@@ -1,5 +1,5 @@
 import * as types from "../actions/actionTypes";
-import { Match, Player, PlayerAPIResponse } from "../models";
+import { Player, PlayerAPIResponse, getHousesModels } from "../models";
 import { Houses } from "../constants";
 
 export interface CurrentMatchState {
@@ -28,6 +28,32 @@ const initialState: CurrentMatchState = {
   error: null,
 };
 
+// TODO: Move this logic to the API
+function fillMatchSlots(players_count: number, players: PlayerAPIResponse[]) {
+  const matchSetup = getHousesModels(players_count);
+
+  if (players.length === 0) {
+    return matchSetup;
+  }
+
+  let computedPlayers: Player[] = [];
+
+  matchSetup.forEach(slot => {
+    const player = players.find(p => p.house_name.toLowerCase() === slot.house);
+    if (player) {
+      computedPlayers.push({
+        id: player.user_id,
+        house: player.house_name as Houses
+      });
+      return;
+    }
+
+    computedPlayers.push(slot);
+  });
+
+  return computedPlayers;
+}
+
 export default (
   state = initialState,
   { type, id, name, players_count, players, created_at, updated_at, error, newPlayer }: Payload
@@ -39,12 +65,7 @@ export default (
         isLoading: true,
       };
     case types.GET_MATCH_SUCCESS:
-      const p = players.map(player => (
-        {
-          id: player.user_id,
-          house: player.house_name as Houses
-        }
-      ));
+      const p = fillMatchSlots(players_count, players);
 
       return {
         ...state,

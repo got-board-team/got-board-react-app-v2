@@ -48,7 +48,7 @@ const sixPlayersMatch: House[] = [
   { house: Houses.TYRELL, id: null },
 ];
 
-export const HousesModels = (playerCount: number): House[] => {
+export const getHousesModels = (playerCount: number): House[] => {
   switch (playerCount) {
     case 3:
       return threePlayersMatch;
