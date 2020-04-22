@@ -12,7 +12,7 @@ export interface Drop {
   x: number;
   y: number;
   location: string;
-  houseName?: string; // Optional for Combat but not for Pieces
+  houseName?: Houses; // Optional for Combat but not for Pieces
   spec?: DropSpec;
 }
 

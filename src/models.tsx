@@ -1,32 +1,54 @@
 import { Houses } from "./constants";
 
-export interface House {
-  type: Houses;
-  playerId: number | null;
+export interface Match {
+  id: number;
+  name: string;
+  players_count: number;
+  created_at: string;
+  updated_at: string;
+  players: Player[];
+}
+
+export interface Player {
+  id: number | null;
+  house: Houses;
+}
+
+export interface PlayerAPIResponse {
+  created_at: string;
+  house_name: string;
+  id: number;
+  match_id: number;
+  user_id: number;
+}
+
+interface House {
+  house: Houses;
+  id: number | null;
 }
 
 const threePlayersMatch: House[] = [
-  { type: Houses.BARATHEON, playerId: null },
-  { type: Houses.LANNISTER, playerId: null },
-  { type: Houses.STARK, playerId: null },
+  { house: Houses.BARATHEON, id: null },
+  { house: Houses.LANNISTER, id: null },
+  { house: Houses.STARK, id: null },
 ];
 
 const fourPlayersMatch: House[] = [
   ...threePlayersMatch,
-  { type: Houses.MARTELL, playerId: null },
+  { house: Houses.MARTELL, id: null },
 ];
 
 const fivePlayersMatch: House[] = [
   ...fourPlayersMatch,
-  { type: Houses.GREYJOY, playerId: null },
+  { house: Houses.GREYJOY, id: null },
 ];
 
 const sixPlayersMatch: House[] = [
   ...fivePlayersMatch,
-  { type: Houses.TYRELL, playerId: null },
+  { house: Houses.TYRELL, id: null },
 ];
 
-const HousesModels = (playerCount: number): House[] => {
+export const getHousesModels = (playerCount: number): House[] => {
   switch (playerCount) {
     case 3:
       return threePlayersMatch;

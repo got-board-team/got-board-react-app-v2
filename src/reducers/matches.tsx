@@ -1,12 +1,5 @@
 import * as types from "../actions/actionTypes";
-
-export interface Match {
-  id: number;
-  name: string;
-  playersCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Match } from "../models";
 
 export interface MatchesState {
   isLoading: boolean;

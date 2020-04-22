@@ -5,22 +5,21 @@ import Piece from './Piece';
 import Draggable from './common/Draggable';
 import Dropable from "./common/Dropable";
 import { Drop } from "../reducers/drop";
-import { User } from "../reducers/currentUser";
-import { AllPieceKinds } from "../constants";
+import { AllPieceKinds, Houses } from "../constants";
 import { revealCards, resetCombat } from "../actions/drop";
 
 import "./Combat.scss";
 
 interface CombatProps {
-  currentUser: User;
-  drops: Array<Drop>;
+  currentPlayerHouse: Houses;
+  drops: Drop[];
   x: number;
   y: number;
   revealCards: (drops: Drop[]) => void;
   resetCombat: () => void;
 }
 
-const Combat = React.memo(({x, y, drops, currentUser, revealCards, resetCombat}: CombatProps) => {
+const Combat = React.memo(({x, y, drops, currentPlayerHouse, revealCards, resetCombat}: CombatProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggle = useCallback(() => {
     setIsVisible(!isVisible);
@@ -42,7 +41,7 @@ const Combat = React.memo(({x, y, drops, currentUser, revealCards, resetCombat}:
           </section>
 
           <section className="combat__inventory">
-            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={{...drop.spec, flipped: drop.houseName !== currentUser.houseName && (drop && drop.spec && drop.spec.flipped)}} />)}
+            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={{...drop.spec, flipped: (drop.houseName && (drop.houseName !== currentPlayerHouse)) && (drop && drop.spec && drop.spec.flipped)}} />)}
           </section>
         </Draggable>
       </Dropable>

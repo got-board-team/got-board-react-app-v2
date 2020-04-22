@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { Match } from "../reducers/matches";
+import { Match } from "../models";
 import { useCreateMatch } from "../actions/matches";
 import { selectCreatedMatch } from "../selectors";
 import MainNav from "./MainNav";
@@ -10,14 +10,15 @@ import MainNav from "./MainNav";
 const DEFAULT_GAME_PRESET: Match = {
   id: -1,
   name: "",
-  playersCount: 3,
-  createdAt: "",
-  updatedAt: "",
+  players_count: 3,
+  created_at: "",
+  updated_at: "",
+  players: [],
 };
 
 function NewMatch() {
   const [newMatch, setNewMatch] = useState(DEFAULT_GAME_PRESET);
-  const [createMatchRequest, {loading, error}] = useCreateMatch(newMatch.name, newMatch.playersCount);
+  const [createMatchRequest, {loading, error}] = useCreateMatch(newMatch.name, newMatch.players_count);
   const createdMatch: Match = useSelector(selectCreatedMatch);
 
   const createNewMatch = useCallback(() => {
@@ -47,7 +48,7 @@ function NewMatch() {
               } /><br />
             <select onChange={(e) => setNewMatch({
               ...newMatch,
-              playersCount: parseInt(e.target.value),
+              players_count: parseInt(e.target.value),
             })}>
               <option value="3">3 Players</option>
               <option value="4">4 Players</option>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useGetMatches } from "../actions/matches";
-import { Match } from "../reducers/matches";
+import { Match } from "../models";
 import { selectMatches } from "../selectors";
 
 function ListMatches() {
