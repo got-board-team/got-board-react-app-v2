@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Dropable from "./common/Dropable";
 import Piece from './Piece';
-import { Drop } from "../reducers/drop";
+import { Drop } from "../models";
 import { AllPieceKinds } from "../constants";
 
 import "./Map.scss"

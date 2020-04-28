@@ -1,13 +1,13 @@
 import * as types from "./actionTypes";
-import { Piece } from "../models";
+import { Drop } from "../models";
 
-const updateDropableSuccessAction = (drop: Piece) => ({
+const updateDropableSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_LOCATION_SUCCESS,
   drop,
   isPusherDispatch: true,
 });
 
-export const updateDrop = (drop: Piece) => (dispatch: any) => {
+export const updateDrop = (drop: Drop) => (dispatch: any) => {
   // From the match id in the URL, set it in state as currentMatch
   // PUT api/matches/:current_match/drops
   // {drop: Drop}
@@ -23,13 +23,13 @@ export const updateDrop = (drop: Piece) => (dispatch: any) => {
   dispatch(updateDropableSuccessAction(drop));
 };
 
-const updateFlippedSuccessAction = (drop: Piece) => ({
+const updateFlippedSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_REVEAL_COMBAT_SUCCESS,
   drop,
   isPusherDispatch: true,
 });
 
-export const revealCards = (drops: Piece[]) => (dispatch: any) => {
+export const revealCards = (drops: Drop[]) => (dispatch: any) => {
   drops.forEach(drop => dispatch(updateFlippedSuccessAction(drop)));
 }
 

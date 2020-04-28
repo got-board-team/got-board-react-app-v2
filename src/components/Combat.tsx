@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Piece from './Piece';
 import Draggable from './common/Draggable';
 import Dropable from "./common/Dropable";
-import { Drop } from "../reducers/drop";
+import { Drop } from "../models";
 import { AllPieceKinds, Houses } from "../constants";
 import { revealCards, resetCombat } from "../actions/drop";
 

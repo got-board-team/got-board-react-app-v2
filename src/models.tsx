@@ -27,7 +27,7 @@ interface House {
   id: number | null;
 }
 
-export interface Piece {
+export interface Drop {
   id: number;
   type: string;
   x: number;

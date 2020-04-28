@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd'
 import { connect } from 'react-redux'
 
 import { updateDrop } from "../../actions/drop";
-import { Drop } from "../../reducers/drop";
+import { Drop } from "../../models";
 
 interface Props {
   accept: string | Array<string>;

@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import * as types from "./actionTypes";
-import { Piece } from "../models";
+import { Drop } from "../models";
 import { getPiecesEndpoint } from "../api";
 
 const getPieces = () => ({
   type: types.GET_PIECES,
 });
 
-const getPiecesSuccess = (pieces: Piece[]) => ({
+const getPiecesSuccess = (pieces: Drop[]) => ({
   type: types.GET_MATCH_SUCCESS,
   pieces,
 });
