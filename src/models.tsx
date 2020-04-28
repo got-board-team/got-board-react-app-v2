@@ -29,7 +29,7 @@ interface House {
 
 export interface Drop {
   id: number;
-  type: string;
+  piece_type: string;
   x: number;
   y: number;
   location: string;

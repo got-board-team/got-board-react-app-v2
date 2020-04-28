@@ -14,7 +14,7 @@ const initialState: DropState = {
 
 export default (
   state = initialState,
-  { type, drop }: {type: string, drop: Drop}
+  { type, drop, drops, error }: {type: string, drop: Drop, drops: Drop[], error: string}
 ) => {
   switch (type) {
     case types.RESET_COMBAT_SUCCESS:
@@ -72,6 +72,23 @@ export default (
             spec: computedSpec,
           },
         ],
+      };
+    case types.GET_PIECES:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.GET_PIECES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        drops,
+      };
+    case types.GET_PIECES_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error,
       };
     default:
       return state;

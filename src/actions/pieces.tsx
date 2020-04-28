@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
+import { useRequest, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
 import { Drop } from "../models";
 import { getPiecesEndpoint } from "../api";
@@ -9,9 +10,9 @@ const getPieces = () => ({
   type: types.GET_PIECES,
 });
 
-const getPiecesSuccess = (pieces: Drop[]) => ({
-  type: types.GET_MATCH_SUCCESS,
-  pieces,
+const getPiecesSuccess = (drops: Drop[]) => ({
+  type: types.GET_PIECES_SUCCESS,
+  drops,
 });
 
 const getPiecesError = (error: string) => ({
@@ -49,3 +50,5 @@ function useGetPieces(matchId: number): Hook {
 
   return [request, { loading, error }];
 }
+
+export { useGetPieces };
