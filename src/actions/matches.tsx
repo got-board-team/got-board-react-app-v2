@@ -4,14 +4,9 @@ import { useDispatch } from "react-redux";
 import { useRequest, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
 import { Match, Player } from "../models";
+import { allMatchesEndpoint, matchEndpoint, joinMatchEndpoint } from "../api";
 
 type MatchHook = [() => void, {loading: boolean, error: string | null}];
-
-// TODO: Move to endpoints file + API URL to env var
-const BASE_API_URL = "http://localhost:8000";
-const allMatchesEndpoint = `${BASE_API_URL}/matches`;
-const matchEndpoint = (matchId: number) => `${BASE_API_URL}/matches/${matchId}`;
-const joinMatchEndpoint = (matchId: number) => `${BASE_API_URL}/matches/${matchId}/join`;
 
 const getMatches = () => ({
   type: types.GET_MATCHES,

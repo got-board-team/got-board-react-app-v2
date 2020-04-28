@@ -1,84 +1,25 @@
 import * as types from "../actions/actionTypes";
-import { PieceKinds, Locations, Houses, Cards } from "../constants";
-
-interface DropSpec {
-  card?: string;
-  flipped?: boolean; // When it's flipped, the user sees it's back cover.
-}
-
-export interface Drop {
-  id: number;
-  type: string;
-  x: number;
-  y: number;
-  location: string;
-  houseName?: Houses; // Optional for Combat but not for Pieces
-  spec?: DropSpec;
-}
+import { Locations, Houses } from "../constants";
+import { Piece } from "../models";
 
 interface DropState {
   isLoading: boolean;
-  drops: Drop[];
+  drops: Piece[];
 }
 
 const initialState: DropState = {
   isLoading: false,
-  drops: [
-    {
-      id: 1,
-      type: PieceKinds.FOOTMAN,
-      x: 0,
-      y: 0,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 2,
-      type: PieceKinds.KNIGHT,
-      x: 0,
-      y: 0,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 3,
-      type: PieceKinds.SIEGE,
-      x: 100,
-      y: 100,
-      location: Locations.MAP,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 4,
-      type: PieceKinds.SHIP,
-      x: 180,
-      y: 100,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 5,
-      type: PieceKinds.CARD,
-      x: 180,
-      y: 100,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-      spec: {
-        card: Cards.BRIENNE,
-        flipped: false
-      },
-    },
-  ],
+  drops: [],
 };
 
 export default (
   state = initialState,
-  { type, drop }: {type: string, drop: Drop}
+  { type, drop }: {type: string, drop: Piece}
 ) => {
   switch (type) {
     case types.RESET_COMBAT_SUCCESS:
-      const dropsInCombat: Drop[] = state.drops.filter((p: Drop) => p.location === Locations.COMBAT)
-      const resetedDrops: Drop[] = dropsInCombat.map(d => ({
+      const dropsInCombat: Piece[] = state.drops.filter((p: Piece) => p.location === Locations.COMBAT)
+      const resetedDrops: Piece[] = dropsInCombat.map(d => ({
         ...d,
         location: Locations.WAR_ROOM,
         spec: {
@@ -90,7 +31,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.location !== Locations.COMBAT),
+          ...state.drops.filter((p: Piece) => p.location !== Locations.COMBAT),
           ...resetedDrops,
         ],
       };
@@ -103,7 +44,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          ...state.drops.filter((p: Piece) => p.id !== drop.id),
           {
             ...drop,
             spec: flippedSpec,
@@ -120,7 +61,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          ...state.drops.filter((p: Piece) => p.id !== drop.id),
           {
             id: drop.id,
             type: drop.type,
