@@ -15,7 +15,7 @@ function Map ({drops}: Props) {
   return (
     <Dropable accept={AllPieceKinds} dropLocation="map">
       <section className="map">
-        {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} piece_type={drop.piece_type} location={drop.location} houseName={drop.houseName} spec={drop.spec} />)}
+        {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={drop.spec} />)}
       </section>
     </Dropable>
   );

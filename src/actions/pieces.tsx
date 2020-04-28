@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { useRequest, UseRequestState } from "./useRequest";
+import { useRequest } from "./useRequest";
 import * as types from "./actionTypes";
 import { Drop } from "../models";
 import { getPiecesEndpoint } from "../api";
@@ -21,6 +21,12 @@ const getPiecesError = (error: string) => ({
 });
 
 type Hook = [() => void, {loading: boolean, error: string | null}];
+
+interface UseRequestState {
+  loading: boolean;
+  error: string | null;
+  data: Drop[];
+}
 
 function useGetPieces(matchId: number): Hook {
   const dispatch = useDispatch();

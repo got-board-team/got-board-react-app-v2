@@ -22,14 +22,14 @@ function CurrentMatch({ match: { params: { id } } }: { match: any }) {
   const currentPlayer = currentMatch.players && currentMatch.players.find(player => currentUser.id === player.id);
   const drops: Drop[] = useSelector(selectMapDrops);
 
-  const updateUiPanelPosition = (item: any, monitor: any) => {
+  const updateUiPanelPosition = (drop: Drop, monitor: any) => {
     const newCoords = monitor.getDifferenceFromInitialOffset();
     if (newCoords && newCoords.x && newCoords.y) {
       const newX = newCoords.x + warRoomPosition.x;
       const newY = newCoords.y + warRoomPosition.y;
       const newPanelsPositions = {
         ...uiPanelsPositions,
-        [item.type]: { x: newX, y: newY }
+        [drop.type]: { x: newX, y: newY }
       };
       setUiPanelsPositions(newPanelsPositions);
     }

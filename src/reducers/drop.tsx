@@ -64,7 +64,8 @@ export default (
           ...state.drops.filter((p: Drop) => p.id !== drop.id),
           {
             id: drop.id,
-            type: drop.type,
+            //@ts-ignore
+            type: drop.piece_type,
             location: drop.location,
             x: drop.x,
             y: drop.y,

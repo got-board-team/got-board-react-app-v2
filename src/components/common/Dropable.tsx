@@ -8,7 +8,7 @@ import { Drop } from "../../models";
 interface Props {
   accept: string | Array<string>;
   dropLocation: string;
-  dropAction?: (item: any, monitor: any) => void;
+  dropAction?: (drop: Drop, monitor: any) => void;
   children: ReactNode;
   updateDrop: (drop: Drop) => void;
 }
@@ -34,6 +34,7 @@ const Dropable = React.memo(({accept, dropAction, children, updateDrop, dropLoca
   const [collectedProps, drop] = useDrop({
     accept,
     canDrop: () => true,
+    //@ts-ignore
     drop: dropAction || defaultDropAction,
     collect: monitor => ({
       isOver: !!monitor.isOver(),

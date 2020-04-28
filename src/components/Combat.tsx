@@ -34,14 +34,14 @@ const Combat = React.memo(({x, y, drops, currentPlayerHouse, revealCards, resetC
   if (isVisible) {
     return (
       <Dropable accept={AllPieceKinds} dropLocation="combat">
-        <Draggable id={0} piece_type="combat" x={x} y={y} location="game" className="ui__panel combat">
+        <Draggable id={0} type="combat" x={x} y={y} location="game" className="ui__panel combat">
           <section className="combat__actions">
             <button onClick={toggle}>Close</button>
             <button onClick={reveal}>Reveal</button>
           </section>
 
           <section className="combat__inventory">
-            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} piece_type={drop.piece_type} location={drop.location} houseName={drop.houseName} spec={{...drop.spec, flipped: (drop.houseName && (drop.houseName !== currentPlayerHouse)) && (drop && drop.spec && drop.spec.flipped)}} />)}
+            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={drop.houseName} spec={{...drop.spec, flipped: (drop.houseName && (drop.houseName !== currentPlayerHouse)) && (drop && drop.spec && drop.spec.flipped)}} />)}
           </section>
         </Draggable>
       </Dropable>
