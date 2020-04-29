@@ -63,14 +63,9 @@ export default (
         drops: [
           ...state.drops.filter((p: Drop) => p.id !== drop.id),
           {
-            id: drop.id,
+            ...drop,
             //@ts-ignore
             type: drop.piece_type,
-            location: drop.location,
-            x: drop.x,
-            y: drop.y,
-            houseName: drop.houseName,
-            spec: computedSpec,
           },
         ],
       };
@@ -83,7 +78,11 @@ export default (
       return {
         ...state,
         isLoading: false,
-        drops,
+        drops: drops.map(drop => ({
+          ...drop,
+          //@ts-ignore
+          type: drop.piece_type,
+        })),
       };
     case types.GET_PIECES_ERROR:
       return {
