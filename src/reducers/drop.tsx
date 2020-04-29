@@ -1,10 +1,10 @@
 import * as types from "../actions/actionTypes";
 import { Locations, Houses } from "../constants";
-import { Drop } from "../models";
+import { DropResponse } from "../models";
 
 interface DropState {
   isLoading: boolean;
-  drops: Drop[];
+  drops: DropResponse[];
 }
 
 const initialState: DropState = {
@@ -14,12 +14,12 @@ const initialState: DropState = {
 
 export default (
   state = initialState,
-  { type, drop, drops, error }: {type: string, drop: Drop, drops: Drop[], error: string}
+  { type, drop, drops, error }: {type: string, drop: DropResponse, drops: DropResponse[], error: string}
 ) => {
   switch (type) {
     case types.RESET_COMBAT_SUCCESS:
-      const dropsInCombat: Drop[] = state.drops.filter((p: Drop) => p.location === Locations.COMBAT)
-      const resetedDrops: Drop[] = dropsInCombat.map(d => ({
+      const dropsInCombat: DropResponse[] = state.drops.filter((p: DropResponse) => p.location === Locations.COMBAT)
+      const resetedDrops: DropResponse[] = dropsInCombat.map(d => ({
         ...d,
         location: Locations.WAR_ROOM,
         spec: {
@@ -31,7 +31,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.location !== Locations.COMBAT),
+          ...state.drops.filter((p: DropResponse) => p.location !== Locations.COMBAT),
           ...resetedDrops,
         ],
       };
@@ -44,7 +44,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          ...state.drops.filter((p: DropResponse) => p.id !== drop.id),
           {
             ...drop,
             spec: flippedSpec,
@@ -52,7 +52,10 @@ export default (
         ],
       };
     case types.UPDATE_DROP_LOCATION_SUCCESS:
-      console.log('reducer', types.UPDATE_DROP_LOCATION_SUCCESS)
+      console.log('reducer', types.UPDATE_DROP_LOCATION_SUCCESS);
+      console.log(drop);
+      // TODO: This drop is type Drop so not compatible. To be a DropResponse
+      // the action object should come from the API response
       const computedSpec = {
         ...drop.spec,
         flipped: drop.location === Locations.COMBAT,
@@ -61,11 +64,11 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          ...state.drops.filter((p: DropResponse) => p.id !== drop.id),
           {
             ...drop,
-            //@ts-ignore
             type: drop.piece_type,
+            houseName: drop.house_name,
           },
         ],
       };
@@ -80,8 +83,8 @@ export default (
         isLoading: false,
         drops: drops.map(drop => ({
           ...drop,
-          //@ts-ignore
           type: drop.piece_type,
+          houseName: drop.house_name,
         })),
       };
     case types.GET_PIECES_ERROR:

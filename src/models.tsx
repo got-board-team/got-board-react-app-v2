@@ -37,6 +37,16 @@ export interface Drop {
   spec?: PieceSpec;
 }
 
+export interface DropResponse {
+  id: number;
+  piece_type: string;
+  x: number;
+  y: number;
+  location: string;
+  house_name?: Houses; // Optional for Combat but not for Pieces
+  spec?: PieceSpec;
+}
+
 interface PieceSpec {
   card?: string;
   flipped?: boolean; // When it's flipped, the user sees it's back cover.
