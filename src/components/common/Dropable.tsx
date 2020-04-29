@@ -1,21 +1,24 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import { useDrop } from 'react-dnd'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import { updateDrop } from "../../actions/drop";
+import { useUpdateDrop } from "../../actions/drop";
 import { Drop } from "../../models";
+import { selectCurrentMatch } from "../../selectors";
+import { CurrentMatchState } from "../../reducers/currentMatch";
 
 interface Props {
   accept: string | Array<string>;
   dropLocation: string;
   dropAction?: (drop: Drop, monitor: any) => void;
   children: ReactNode;
-  updateDrop: (drop: Drop) => void;
 }
 
-const Dropable = React.memo(({accept, dropAction, children, updateDrop, dropLocation}: Props) => {
-  // TODO: Make it useCallback?
-  const defaultDropAction = (drop: Drop, monitor: any) => {
+function Dropable({accept, dropAction, children, dropLocation}: Props) {
+  const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
+
+  const defaultDropAction = useCallback(function defaultDropActionCallback(drop: Drop, monitor: any) {
+    const [updateDrop, {}] = useUpdateDrop(currentMatch.id, drop.id);
     const coords = monitor.getDifferenceFromInitialOffset();
     const otherCoords = monitor.getSourceClientOffset();
     const hasChangedLocation = drop.location !== dropLocation;
@@ -28,8 +31,9 @@ const Dropable = React.memo(({accept, dropAction, children, updateDrop, dropLoca
       y: computedY,
       location: dropLocation,
     };
+
     updateDrop(updatedDrop);
-  };
+  }, [currentMatch]);
 
   const [collectedProps, drop] = useDrop({
     accept,
@@ -43,14 +47,6 @@ const Dropable = React.memo(({accept, dropAction, children, updateDrop, dropLoca
   });
 
   return <div className="dropable" ref={drop}>{children}</div>;
-});
-
-const mapStateToProps = (state: any) => ({
-  drops: state.drop.drops.filter((drop: Drop) => drop.location === "map"),
-});
-
-const mapDispatchToProps = {
-  updateDrop,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dropable);
+export default React.memo(Dropable);
