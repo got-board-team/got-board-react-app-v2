@@ -27,6 +27,31 @@ interface House {
   id: number | null;
 }
 
+export interface Drop {
+  id: number;
+  type: string;
+  x: number;
+  y: number;
+  location: string;
+  houseName?: Houses; // Optional for Combat but not for Pieces
+  spec?: PieceSpec;
+}
+
+export interface DropResponse {
+  id: number;
+  piece_type: string;
+  x: number;
+  y: number;
+  location: string;
+  house_name?: Houses; // Optional for Combat but not for Pieces
+  spec?: PieceSpec;
+}
+
+interface PieceSpec {
+  card?: string;
+  flipped?: boolean; // When it's flipped, the user sees it's back cover.
+}
+
 const threePlayersMatch: House[] = [
   { house: Houses.BARATHEON, id: null },
   { house: Houses.LANNISTER, id: null },

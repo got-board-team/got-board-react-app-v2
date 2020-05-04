@@ -1,84 +1,25 @@
 import * as types from "../actions/actionTypes";
-import { PieceKinds, Locations, Houses, Cards } from "../constants";
-
-interface DropSpec {
-  card?: string;
-  flipped?: boolean; // When it's flipped, the user sees it's back cover.
-}
-
-export interface Drop {
-  id: number;
-  type: string;
-  x: number;
-  y: number;
-  location: string;
-  houseName?: Houses; // Optional for Combat but not for Pieces
-  spec?: DropSpec;
-}
+import { Locations } from "../constants";
+import { DropResponse } from "../models";
 
 interface DropState {
   isLoading: boolean;
-  drops: Drop[];
+  drops: DropResponse[];
 }
 
 const initialState: DropState = {
   isLoading: false,
-  drops: [
-    {
-      id: 1,
-      type: PieceKinds.FOOTMAN,
-      x: 0,
-      y: 0,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 2,
-      type: PieceKinds.KNIGHT,
-      x: 0,
-      y: 0,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 3,
-      type: PieceKinds.SIEGE,
-      x: 100,
-      y: 100,
-      location: Locations.MAP,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 4,
-      type: PieceKinds.SHIP,
-      x: 180,
-      y: 100,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-    },
-    {
-      id: 5,
-      type: PieceKinds.CARD,
-      x: 180,
-      y: 100,
-      location: Locations.WAR_ROOM,
-      houseName: Houses.BARATHEON,
-      spec: {
-        card: Cards.BRIENNE,
-        flipped: false
-      },
-    },
-  ],
+  drops: [],
 };
 
 export default (
   state = initialState,
-  { type, drop }: {type: string, drop: Drop}
+  { type, drop, drops, error }: {type: string, drop: DropResponse, drops: DropResponse[], error: string}
 ) => {
   switch (type) {
     case types.RESET_COMBAT_SUCCESS:
-      const dropsInCombat: Drop[] = state.drops.filter((p: Drop) => p.location === Locations.COMBAT)
-      const resetedDrops: Drop[] = dropsInCombat.map(d => ({
+      const dropsInCombat: DropResponse[] = state.drops.filter((p: DropResponse) => p.location === Locations.COMBAT)
+      const resetedDrops: DropResponse[] = dropsInCombat.map(d => ({
         ...d,
         location: Locations.WAR_ROOM,
         spec: {
@@ -90,7 +31,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.location !== Locations.COMBAT),
+          ...state.drops.filter((p: DropResponse) => p.location !== Locations.COMBAT),
           ...resetedDrops,
         ],
       };
@@ -103,7 +44,7 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          ...state.drops.filter((p: DropResponse) => p.id !== drop.id),
           {
             ...drop,
             spec: flippedSpec,
@@ -111,7 +52,10 @@ export default (
         ],
       };
     case types.UPDATE_DROP_LOCATION_SUCCESS:
-      console.log('reducer', types.UPDATE_DROP_LOCATION_SUCCESS)
+      console.log('reducer', types.UPDATE_DROP_LOCATION_SUCCESS);
+      console.log(drop);
+      // TODO: This drop is type Drop so not compatible. To be a DropResponse
+      // the action object should come from the API response
       const computedSpec = {
         ...drop.spec,
         flipped: drop.location === Locations.COMBAT,
@@ -120,17 +64,34 @@ export default (
       return {
         isLoading: false,
         drops: [
-          ...state.drops.filter((p: Drop) => p.id !== drop.id),
+          ...state.drops.filter((p: DropResponse) => p.id !== drop.id),
           {
-            id: drop.id,
-            type: drop.type,
-            location: drop.location,
-            x: drop.x,
-            y: drop.y,
-            houseName: drop.houseName,
-            spec: computedSpec,
+            ...drop,
+            type: drop.piece_type,
+            houseName: drop.house_name,
           },
         ],
+      };
+    case types.GET_PIECES:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.GET_PIECES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        drops: drops.map(drop => ({
+          ...drop,
+          type: drop.piece_type,
+          houseName: drop.house_name,
+        })),
+      };
+    case types.GET_PIECES_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error,
       };
     default:
       return state;

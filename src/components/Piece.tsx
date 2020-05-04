@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import Draggable from './common/Draggable';
-import { Drop } from "../reducers/drop";
+import { Drop } from "../models";
 import { PieceKinds } from "../constants";
 
 import "./Piece.scss";

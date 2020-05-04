@@ -1,15 +1,42 @@
-import * as types from "./actionTypes";
-import { Drop } from "../reducers/drop";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-const updateDropableSuccessAction = (drop: Drop) => ({
+import { useRequest2, UseRequestState } from "./useRequest";
+import * as types from "./actionTypes";
+import { Drop, DropResponse } from "../models";
+import { updatePieceEndpoint } from "../api";
+
+type UpdateDropHook = [(matchId: number, pieceId: number, updatedDrop: Drop) => void, {loading: boolean, error: string | null}];
+
+const updateDropSuccess = (drop: DropResponse) => ({
   type: types.UPDATE_DROP_LOCATION_SUCCESS,
   drop,
   isPusherDispatch: true,
 });
 
-export const updateDrop = (drop: Drop) => (dispatch: any) => {
-  dispatch(updateDropableSuccessAction(drop));
-};
+export function useUpdateDrop(): UpdateDropHook {
+  const dispatch = useDispatch();
+
+  //@ts-ignore
+  const [request, { data, loading, error }]: [(url: string, updatedPiece: Drop) => void, UseRequestState] = useRequest2("PUT");
+
+  function createRequest(matchId: number, pieceId: number, updatedPiece: Drop) {
+    const url = updatePieceEndpoint(matchId, pieceId);
+    return request(url, updatedPiece);
+  }
+
+  useEffect(
+    function persistMatches() {
+      if (data) {
+        dispatch(updateDropSuccess(data));
+        return;
+      }
+    },
+    [data, dispatch]
+  );
+
+  return [createRequest, { loading, error }];
+}
 
 const updateFlippedSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_REVEAL_COMBAT_SUCCESS,
