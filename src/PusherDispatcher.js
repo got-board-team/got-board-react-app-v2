@@ -1,7 +1,7 @@
 const API_HOST = process.env.REACT_APP_API_HOST;
 
 const ApiClient = (payload) => {
-  const endpoint = `${API_HOST}/message`;
+  const endpoint = `${API_HOST}/messages`;
   const options = {
     headers: {
       "Content-Type": "application/json"
