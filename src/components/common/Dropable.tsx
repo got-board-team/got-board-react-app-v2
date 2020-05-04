@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode } from 'react';
 import { useDrop } from 'react-dnd'
 import { useSelector } from 'react-redux'
 
@@ -16,7 +16,7 @@ interface Props {
 
 function Dropable({accept, dropAction, children, dropLocation}: Props) {
   const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
-  const [updateDrop, { loading, error }] = useUpdateDrop();
+  const [updateDrop] = useUpdateDrop();
 
   function defaultDropAction(drop: Drop, monitor: any) {
     const coords = monitor.getDifferenceFromInitialOffset();
@@ -39,6 +39,7 @@ function Dropable({accept, dropAction, children, dropLocation}: Props) {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [collectedProps, drop] = useDrop({
     accept,
     canDrop: () => true,

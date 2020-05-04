@@ -8,28 +8,6 @@ import { updatePieceEndpoint } from "../api";
 
 type UpdateDropHook = [(matchId: number, pieceId: number, updatedDrop: Drop) => void, {loading: boolean, error: string | null}];
 
-const updateDropableSuccessAction = (drop: Drop) => ({
-  type: types.UPDATE_DROP_LOCATION_SUCCESS,
-  drop,
-  isPusherDispatch: true,
-});
-
-export const updateDrop = (drop: Drop) => (dispatch: any) => {
-  // from the match id in the URL, set it in state as currentMatch
-  // PUT api/matches/:current_match/drops
-  // {drop: Drop}
-  /* export interface Drop {
-   *   id: number;
-   *   type: string;
-   *   x: number;
-   *   y: number;
-   *   location: string;
-   *   houseName?: string; // Optional for Combat but not for Pieces
-   *   spec?: DropSpec;
-   * } */
-  dispatch(updateDropableSuccessAction(drop));
-};
-
 const updateDropSuccess = (drop: DropResponse) => ({
   type: types.UPDATE_DROP_LOCATION_SUCCESS,
   drop,

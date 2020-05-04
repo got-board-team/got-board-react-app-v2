@@ -1,5 +1,5 @@
 import * as types from "../actions/actionTypes";
-import { Locations, Houses } from "../constants";
+import { Locations } from "../constants";
 import { DropResponse } from "../models";
 
 interface DropState {
