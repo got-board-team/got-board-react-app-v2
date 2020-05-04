@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { useRequest, UseRequestState } from "./useRequest";
+import { useRequest2, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
 import { Drop, DropResponse } from "../models";
-import { updatePieceEndpoint } from "../api";
 
-type UpdateDropHook = [(updatedDrop: Drop) => void, {loading: boolean, error: string | null}];
+type UpdateDropHook = [(url: string, updatedDrop: Drop) => void, {loading: boolean, error: string | null}];
 
 const updateDropableSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_LOCATION_SUCCESS,
@@ -36,19 +35,15 @@ const updateDropSuccess = (drop: DropResponse) => ({
   isPusherDispatch: true,
 });
 
-export function useUpdateDrop(matchId: number, pieceId: number): UpdateDropHook {
+export function useUpdateDrop(): UpdateDropHook {
   const dispatch = useDispatch();
 
   //@ts-ignore
-  const [request, { data, loading, error }]: [(updatedPiece: Drop) => void, UseRequestState] = useRequest(
-    updatePieceEndpoint(matchId, pieceId),
-    "POST"
-  );
+  const [request, { data, loading, error }]: [(url: string, updatedPiece: Drop) => void, UseRequestState] = useRequest2("PUT");
 
   useEffect(
     function persistMatches() {
       if (error) {
-        //dispatch(updateDropError(error));
         console.error(error);
         return;
       }

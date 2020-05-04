@@ -5,7 +5,7 @@ import { Houses } from "../constants";
 export interface CurrentMatchState {
   isLoading: boolean;
   error: string | null;
-  id: number;
+  id?: number;
   name?: string;
   players?: Player[];
   players_count?: number;

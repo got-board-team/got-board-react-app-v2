@@ -51,3 +51,48 @@ export function useRequest(url: string, method: string, config: any) {
 
   return [request, { loading, error, data }];
 }
+
+export function useRequest2(method: string) {
+  const initialState: UseRequestState = {
+    loading: false,
+    error: null,
+    data: null,
+  };
+
+  const [{ loading, error, data }, setResponse] = useState(initialState);
+
+  async function request(url: string, data: any) {
+    try {
+      setResponse(prevState => ({
+        ...prevState,
+        loading: true,
+      }));
+
+      const response: Response = await fetch(
+        url,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method,
+          body: data && JSON.stringify(data)
+        }
+      );
+      const responseData = await response.json();
+
+      setResponse(prevState => ({
+        ...prevState,
+        data: responseData,
+        loading: false,
+      }));
+    } catch (err) {
+      setResponse(prevState => ({
+        ...prevState,
+        error: err.message,
+        loading: false,
+      }));
+    }
+  }
+
+  return [request, { loading, error, data }];
+}

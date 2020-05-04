@@ -6,6 +6,7 @@ import { useUpdateDrop } from "../../actions/drop";
 import { Drop } from "../../models";
 import { selectCurrentMatch } from "../../selectors";
 import { CurrentMatchState } from "../../reducers/currentMatch";
+import { updatePieceEndpoint } from "../../api";
 
 interface Props {
   accept: string | Array<string>;
@@ -16,9 +17,9 @@ interface Props {
 
 function Dropable({accept, dropAction, children, dropLocation}: Props) {
   const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
+  const [updateDrop, {}] = useUpdateDrop();
 
-  const defaultDropAction = useCallback(function defaultDropActionCallback(drop: Drop, monitor: any) {
-    const [updateDrop, {}] = useUpdateDrop(currentMatch.id, drop.id);
+  function defaultDropAction(drop: Drop, monitor: any) {
     const coords = monitor.getDifferenceFromInitialOffset();
     const otherCoords = monitor.getSourceClientOffset();
     const hasChangedLocation = drop.location !== dropLocation;
@@ -30,10 +31,15 @@ function Dropable({accept, dropAction, children, dropLocation}: Props) {
       x: computedX,
       y: computedY,
       location: dropLocation,
+      piece_type: drop.type,
+      house_name: drop.houseName,
     };
 
-    updateDrop(updatedDrop);
-  }, [currentMatch]);
+    if (currentMatch && currentMatch.id) {
+      const url = updatePieceEndpoint(currentMatch.id, drop.id);
+      updateDrop(url, updatedDrop);
+    }
+  };
 
   const [collectedProps, drop] = useDrop({
     accept,
