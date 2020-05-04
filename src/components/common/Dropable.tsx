@@ -6,7 +6,6 @@ import { useUpdateDrop } from "../../actions/drop";
 import { Drop } from "../../models";
 import { selectCurrentMatch } from "../../selectors";
 import { CurrentMatchState } from "../../reducers/currentMatch";
-import { updatePieceEndpoint } from "../../api";
 
 interface Props {
   accept: string | Array<string>;
@@ -17,7 +16,7 @@ interface Props {
 
 function Dropable({accept, dropAction, children, dropLocation}: Props) {
   const currentMatch: CurrentMatchState = useSelector(selectCurrentMatch);
-  const [updateDrop, {}] = useUpdateDrop();
+  const [updateDrop, { loading, error }] = useUpdateDrop();
 
   function defaultDropAction(drop: Drop, monitor: any) {
     const coords = monitor.getDifferenceFromInitialOffset();
@@ -36,8 +35,7 @@ function Dropable({accept, dropAction, children, dropLocation}: Props) {
     };
 
     if (currentMatch && currentMatch.id) {
-      const url = updatePieceEndpoint(currentMatch.id, drop.id);
-      updateDrop(url, updatedDrop);
+      updateDrop(currentMatch.id, drop.id, updatedDrop);
     }
   };
 

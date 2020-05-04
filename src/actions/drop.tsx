@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import { useRequest2, UseRequestState } from "./useRequest";
 import * as types from "./actionTypes";
 import { Drop, DropResponse } from "../models";
+import { updatePieceEndpoint } from "../api";
 
-type UpdateDropHook = [(url: string, updatedDrop: Drop) => void, {loading: boolean, error: string | null}];
+type UpdateDropHook = [(matchId: number, pieceId: number, updatedDrop: Drop) => void, {loading: boolean, error: string | null}];
 
 const updateDropableSuccessAction = (drop: Drop) => ({
   type: types.UPDATE_DROP_LOCATION_SUCCESS,
@@ -41,22 +42,22 @@ export function useUpdateDrop(): UpdateDropHook {
   //@ts-ignore
   const [request, { data, loading, error }]: [(url: string, updatedPiece: Drop) => void, UseRequestState] = useRequest2("PUT");
 
+  function createRequest(matchId: number, pieceId: number, updatedPiece: Drop) {
+    const url = updatePieceEndpoint(matchId, pieceId);
+    return request(url, updatedPiece);
+  }
+
   useEffect(
     function persistMatches() {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
       if (data) {
         dispatch(updateDropSuccess(data));
         return;
       }
     },
-    [data, error, dispatch]
+    [data, dispatch]
   );
 
-  return [request, { loading, error }];
+  return [createRequest, { loading, error }];
 }
 
 const updateFlippedSuccessAction = (drop: Drop) => ({
