@@ -15,9 +15,15 @@ const ApiClient = (payload) => {
 export default () => store => next => action => {
   if (action.isPusherDispatch) {
     // Extracting isPusherDispatch key from the payload
-    const { isPusherDispatch, ...payload  } = action;
-    const currentUser = store.getState()["currentUser"]["houseName"];
-    ApiClient({ ...payload, dispatchAuthor: { houseName: currentUser } })
+    const { isPusherDispatch, type, drop, ...payload  } = action;
+    const currentUserId = store.getState()["currentUser"]["id"];
+    const finalPayload = {
+      drop,
+      type,
+      author: currentUserId,
+    };
+
+    ApiClient(finalPayload)
       .then(response => response.json())
       .then(json => {
         console.log("Response", json);
