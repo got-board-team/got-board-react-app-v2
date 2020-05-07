@@ -52,7 +52,7 @@ export function useRequest(url: string, method: string, config: any) {
   return [request, { loading, error, data }];
 }
 
-export function useRequest2(method: string) {
+export function useRequest2(method: string): [(url: string, data?: any) => void, UseRequestState] {
   const initialState: UseRequestState = {
     loading: false,
     error: null,
@@ -61,7 +61,7 @@ export function useRequest2(method: string) {
 
   const [{ loading, error, data }, setResponse] = useState(initialState);
 
-  async function request(url: string, data: any) {
+  async function request(url: string, data?: any) {
     try {
       setResponse(prevState => ({
         ...prevState,

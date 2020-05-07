@@ -1,12 +1,11 @@
 import * as types from "../actions/actionTypes";
 
 export interface CurrentUserState {
-  isLoading: boolean;
   id?: number;
   email?: string;
   name?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface User {
@@ -22,35 +21,19 @@ interface Payload {
   attributes: User
 }
 
-const mockedCurrentUser = {
-  id: 1,
-  email: "rafael@got.local",
-  name: "Rafael",
-  createdAt: "2020-04-08T21:02:57.498519",
-  updatedAt: "2020-04-08T21:02:57.498519"
-};
-
-const initialState: CurrentUserState = {
-  isLoading: false,
-  ...mockedCurrentUser,
-};
+const initialState: CurrentUserState = {};
 
 export default (
   state = initialState,
   { type, attributes }: Payload
 ) => {
   switch (type) {
-    case types.GET_USER:
+    case types.SET_USER:
       return {
-        ...state,
-        isLoading: true,
+        ...attributes,
       };
-    case types.GET_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        attributes,
-      };
+    case types.REMOVE_USER:
+      return initialState;
     default:
       return state;
   }

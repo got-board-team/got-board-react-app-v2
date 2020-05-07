@@ -52,7 +52,6 @@ export default (
         ],
       };
     case types.UPDATE_DROP_LOCATION_SUCCESS:
-      console.log('reducer', types.UPDATE_DROP_LOCATION_SUCCESS);
       console.log(drop);
       // TODO: This drop is type Drop so not compatible. To be a DropResponse
       // the action object should come from the API response

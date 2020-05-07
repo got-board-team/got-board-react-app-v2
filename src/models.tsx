@@ -9,6 +9,14 @@ export interface Match {
   players: Player[];
 }
 
+export interface UserAPIResponse {
+  id: number;
+  email: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Player {
   id: number | null;
   house: Houses;

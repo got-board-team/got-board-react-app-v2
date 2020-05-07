@@ -1,8 +1,11 @@
 .main-nav {
   background: black;
   line-height: 2em;
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
 
-  a {
+  a, span {
     color: #eee;
     margin: 0 1em;
     font-size: .8em;
