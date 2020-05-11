@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 import { Player } from "../models";
 import { useJoinMatch } from "../actions/matches";
@@ -14,6 +15,7 @@ function JoinMatch({currentMatchId, currentUserId, players}: Props) {
 
   return (
     <section className="ui__panel ui__panel--centralized">
+      <Link to="/" className="ui__navigation-link">Go back</Link>
       <h3>Select one of the available houses</h3>
       <nav>
         {players.map(player => (

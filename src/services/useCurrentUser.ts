@@ -7,7 +7,7 @@ import { selectCurrentUser } from "../selectors";
 type HookReturn = [
   () => void,
   () => void,
-  { currentUser: any }
+  { currentUser: any | null }
 ];
 
 export function useCurrentUser(): HookReturn {
@@ -33,5 +33,5 @@ export function useCurrentUser(): HookReturn {
     dispatch(removeUser());
   }
 
-  return [loadUserFromLocalStorage, logoutUser, { currentUser }];
+  return [loadUserFromLocalStorage, logoutUser, { currentUser: currentUser.id ? currentUser : null }];
 }

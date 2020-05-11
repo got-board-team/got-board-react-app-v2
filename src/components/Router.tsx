@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, ReactComponentElement, ReactFragment, FunctionComponent } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import Home from "./Home";
@@ -15,7 +15,7 @@ interface ProtectedRouteProps {
 }
 
 function ProtectedRoute({ component: ProtectedComponent, currentUser, ...props }: ProtectedRouteProps) {
-  if (currentUser && currentUser.id) {
+  if (currentUser) {
     return (
       <Route component={ProtectedComponent} {...props} />
     );
@@ -27,11 +27,20 @@ function ProtectedRoute({ component: ProtectedComponent, currentUser, ...props }
 }
 
 function Router() {
+  const [isLoading, setIsLoading] = useState(true);
   const [loadUser, logoutUser, { currentUser }] = useCurrentUser();
 
   useEffect(function setCurrentUser() {
     loadUser();
   }, []);
+
+  useEffect(function disableLoadingOnCurrentUser() {
+    setIsLoading(false);
+  }, [currentUser]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <Switch>

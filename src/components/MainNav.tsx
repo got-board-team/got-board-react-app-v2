@@ -15,7 +15,7 @@ function MainNav() {
         <Link to="/new-match">New Match</Link>
       </section>
       <section>
-        {currentUser && currentUser.id && <span>{currentUser.name} ({currentUser.email}) <button onClick={logoutUser}>Logout</button></span>}
+        {currentUser && <span>{currentUser.name} ({currentUser.email}) <button onClick={logoutUser}>Logout</button></span>}
       </section>
     </nav>
   );
