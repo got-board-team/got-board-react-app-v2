@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode, ReactComponentElement, ReactFragment, FunctionComponent } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import Home from "./Home";
@@ -9,15 +9,15 @@ import { useCurrentUser } from "../services/useCurrentUser";
 
 interface ProtectedRouteProps {
   currentUser: any;
-  component: ReactNode;
+  component: any; // TODO: Investigate why FunctionalComponent type is not working
   exact: boolean;
   path: string;
 }
 
-function ProtectedRoute({ component, currentUser, ...props }: ProtectedRouteProps) {
+function ProtectedRoute({ component: ProtectedComponent, currentUser, ...props }: ProtectedRouteProps) {
   if (currentUser && currentUser.id) {
     return (
-      <Route component={Home} {...props} />
+      <Route component={ProtectedComponent} {...props} />
     );
   }
 
