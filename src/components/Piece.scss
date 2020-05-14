@@ -66,3 +66,47 @@ $houses: baratheon, greyjoy, lannister, martell, stark, tyrell;
   width: 80px;
   height: 80px;
 }
+
+.round_token {
+  background: url("/images/round-marker.png");
+  width: 100px;
+  height: 80px;
+}
+
+.influence_token {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  border: 3px solid #ffc800;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background-image: url("/images/tokens/influence/#{$house}.png");
+      background-size: 100%;
+    }
+  }
+}
+
+.supply_token {
+  width: 71px;
+  height: 90px;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background-image: url("/images/tokens/supply/#{$house}.png");
+      background-size: 100%;
+    }
+  }
+}
+
+.victory_token {
+  width: 90px;
+  height: 76px;
+
+  @each $house in $houses {
+    &--#{$house} {
+      background-image: url("/images/tokens/victory/#{$house}.png");
+      background-size: 100%;
+    }
+  }
+}

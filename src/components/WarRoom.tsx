@@ -19,17 +19,18 @@ interface WarRoomProps {
 const WarRoom = React.memo(({x, y, drops, currentPlayerHouse}: WarRoomProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggle = () => setIsVisible(!isVisible);
+  const currentPlayerWarRoomDrops = drops.filter((drop: Drop) => drop.houseName === currentPlayerHouse);
 
   if (isVisible) {
     return (
-      <Dropable accept={AllPieceKinds} dropLocation="war-room">
+      <Dropable accept={AllPieceKinds} dropLocation="war_room">
         <Draggable id={0} type="war-room" x={x} y={y} location="game" houseName={currentPlayerHouse} className="ui__panel war-room">
           <section className="war-room__actions">
             <button onClick={toggle}>Close</button>
           </section>
 
           <section className="war-room__inventory">
-            {drops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={currentPlayerHouse} spec={drop.spec} />)}
+            {currentPlayerWarRoomDrops.map((drop, index) => <Piece key={index} id={drop.id} x={drop.x} y={drop.y} type={drop.type} location={drop.location} houseName={currentPlayerHouse} spec={drop.spec} />)}
           </section>
         </Draggable>
       </Dropable>
@@ -40,7 +41,7 @@ const WarRoom = React.memo(({x, y, drops, currentPlayerHouse}: WarRoomProps) => 
 });
 
 const mapStateToProps = (state: any) => ({
-  drops: state.drop.drops.filter((drop: Drop) => drop.location === "war-room"),
+  drops: state.drop.drops.filter((drop: Drop) => drop.location === "war_room"),
 });
 
 const mapDispatchToProps = {};

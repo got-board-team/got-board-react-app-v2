@@ -5,6 +5,10 @@ export enum PieceKinds {
   SHIP = "ship",
   CARD = "card",
   WILDINGS_TOKEN = "wildings_token",
+  INFLUENCE_TOKEN = "influence_token",
+  ROUND_TOKEN = "round_token",
+  SUPPLY_TOKEN = "supply_token",
+  VICTORY_TOKEN = "victory_token",
 };
 
 export const AllPieceKinds = [
@@ -14,6 +18,10 @@ export const AllPieceKinds = [
   PieceKinds.SHIP,
   PieceKinds.CARD,
   PieceKinds.WILDINGS_TOKEN,
+  PieceKinds.INFLUENCE_TOKEN,
+  PieceKinds.ROUND_TOKEN,
+  PieceKinds.SUPPLY_TOKEN,
+  PieceKinds.VICTORY_TOKEN,
 ];
 
 export enum Houses {
