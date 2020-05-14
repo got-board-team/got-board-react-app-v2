@@ -4,6 +4,7 @@ export enum PieceKinds {
   SIEGE = "siege",
   SHIP = "ship",
   CARD = "card",
+  WILDINGS_TOKEN = "wildings_token",
 };
 
 export const AllPieceKinds = [
@@ -12,6 +13,7 @@ export const AllPieceKinds = [
   PieceKinds.SIEGE,
   PieceKinds.SHIP,
   PieceKinds.CARD,
+  PieceKinds.WILDINGS_TOKEN,
 ];
 
 export enum Houses {
