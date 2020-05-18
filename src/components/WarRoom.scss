@@ -1,6 +1,5 @@
 .war-room {
   width: 40vw;
-  height: 60vh;
 
   &__actions {
     display: flex;
@@ -9,6 +8,7 @@
 
   &__inventory {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .draggable {
